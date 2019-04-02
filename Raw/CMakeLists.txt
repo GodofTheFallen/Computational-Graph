@@ -1,0 +1,5 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+PROJECT(Computational-Graph)
+
+ADD_EXECUTABLE(main node.cpp)
+
