@@ -43,6 +43,10 @@
 
 ### Bonus: Template <_T>
 
+## Error
+
+报错请用 try-catch
+
 ## Clear
 
 1. 节点处计算，节点处调用依赖节点的计算，用一个指针_T*存临时结果
