@@ -4,15 +4,20 @@
 template<typename _T>
 class Node
 {
-private:
+protected:
     _T *Result;
 public:
     Node() : Result(nullptr) {};
 
     virtual _T GetVal() = 0; //获取节点的计算结果
     virtual void Clear() = 0;  //清除节点的计算结果
-    virtual ~Node() = 0;
-};
+
+    virtual ~Node()
+    {
+        delete Result;
+        Result = nullptr;
+    }
+}
 
 
 #endif //COMPUTATIONAL_GRAPH_NODE_H

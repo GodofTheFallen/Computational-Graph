@@ -6,7 +6,8 @@
 template<typename _T>
 class PriNode : Node<_T>
 {
-
+protected:
+    Node<_T>*;
 };
 
 
