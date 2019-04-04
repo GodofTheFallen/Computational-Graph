@@ -15,7 +15,10 @@ protected:
     //Calc函数用于计算该节点的答案，不允许从外部调用，只可以从GetVal()调用（因为所有的节点都有GetVal()，而Calc()不是）
 
 public:
+    CalcNode(int) = default;
+
     CalcNode(int _OpeNum) : OperandNum(_OpeNum) {}
+
 
     _T GetVal();
 
