@@ -1,5 +1,7 @@
 # 计算图任务列表
 
+**UPD！：写一段代码更新一下README.md 和 wiki，内容仿照已有的部分，README.md与wiki内容相同，后期再对README.md进行简化**
+
 ## 需要编写的内容
 
 ### 计算图节点class
@@ -66,4 +68,4 @@
 
 及时commit
 
-最好写一段代码更新一下README.md，内容就是介绍一下每一个类是个什么东西
+**写一段代码更新一下README.md 和 wiki，内容仿照已有的部分，README.md与wiki内容相同，后期再对README.md进行简化**
