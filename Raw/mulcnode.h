@@ -4,7 +4,7 @@
 #include"doucnode.h"
 
 template<typename _T>
-class MulCNode : public DUNCNode<_T> {//乘法节点
+class MulCNode : public DUNCNode<_T> {//鲁脣路篓陆脷碌茫
 	MulCNode() {
 
 	}
