@@ -4,7 +4,7 @@
 #include"doucnode.h"
 
 template<typename _T>
-class PluCNode : public DUNCNode<_T> {//录脫路篓陆脷碌茫
+class PluCNode : public DUNCNode<_T> {//加法节点
 	PluCNode() {
 
 	}
