@@ -4,7 +4,7 @@
 #include"doucnode.h"
 
 template<typename _T>
-class DivCNode : public DUNCNode<_T> {//³ý·¨½Úµã
+class DivCNode : public DUNCNode<_T> {//Â³Ã½Â·Â¨Â½ÃšÂµÃ£
 	DivCNode() {
 
 	}
