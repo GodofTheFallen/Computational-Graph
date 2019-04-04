@@ -10,15 +10,16 @@ protected:
     _T Calc(); //重载Calc，在这里进行计算
 
 public:
+    using CalcNode<_T>::OperandNum;
+    using CalcNode<_T>::Operands; //直接将基类的操作元using下来，简化代码
+
     PluCNode(Node<_T> &_Ope0, Node<_T> &_Ope1)
     {
         CalcNode<_T>(2);
-        CalcNode<_T>::Operands = new Node<_T> *[2];
-        CalcNode<_T>::Operands[0] = _Ope0;
-        CalcNode<_T>::Operands[1] = _Ope1;
+        Operands = new Node<_T> *[2];
+        Operands[0] = &_Ope0;
+        Operands[1] = &_Ope1;
     }
-
-    _T GetVal();//获取答案，外部只可以调用这个
 
     //不需要特别的清除和析构，因为没有多余成员
 };

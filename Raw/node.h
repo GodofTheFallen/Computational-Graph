@@ -14,8 +14,10 @@ public:
 
     virtual ~Node()
     {
-        delete Result;
-        Result = nullptr;
+        if (Result) {
+            delete Result;
+            Result = nullptr;
+        }
     }
 }
 
