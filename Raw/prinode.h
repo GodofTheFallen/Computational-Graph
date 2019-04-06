@@ -14,9 +14,11 @@ protected:
     _T Print();
 
 public:
-    explicit PriNode(Node<_T> &_NtoW) : WatchNode(_NtoW) {};
+    using Node<_T>::Result;
 
-    _T GetVal()
+    explicit PriNode(Node<_T> &_NtoW, std::ostream &_OSTR) : WatchNode(_NtoW), OUTPUT(_OSTR) {};
+
+    _T GetVal();
 
 };
 
