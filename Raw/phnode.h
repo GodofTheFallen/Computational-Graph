@@ -7,6 +7,7 @@ template<typename _T>
 class PHNode : public Node<_T>
 {
 public:
+    using Node<_T>::Result;
 
     _T GetVal();
 

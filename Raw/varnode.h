@@ -8,6 +8,10 @@ class VarNode : PHNode<_T>
 {
 private:
 public:
+    using PHNode<_T>::Result;
+
+    explicit VarNode(_T _InitVal) { Result = new _T(_InitVal); }
+
     void Clear() {}
 
     void ForcedClear();
