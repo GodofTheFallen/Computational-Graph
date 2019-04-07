@@ -1,5 +1,5 @@
-#ifndef COMPUTATIONAL_GRAPH_SINGCNODE_H
-#define COMPUTATIONAL_GRAPH_SINGCNODE_H
+#ifndef COMPUTATIONAL_GRAPH_PLUCNODE_H
+#define COMPUTATIONAL_GRAPH_PLUCNODE_H
 
 #include<vector>
 #include"calcnode.h"
@@ -32,4 +32,4 @@ public:
     //不需要特别的清除和析构，因为没有多余成员
 };
 
-#endif //COMPUTATIONAL_GRAPH_DOUCNODE_H
+#endif //COMPUTATIONAL_GRAPH_PLUCNODE_H
