@@ -1,7 +1,6 @@
 #ifndef COMPUTATIONAL_GRAPH_PLUCNODE_H
 #define COMPUTATIONAL_GRAPH_PLUCNODE_H
 
-#include<vector>
 #include"calcnode.h"
 
 template<typename _T>

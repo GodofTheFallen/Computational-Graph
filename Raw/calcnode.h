@@ -1,6 +1,8 @@
 #ifndef COMPUTATIONAL_GRAPH_CALCNODE_H
 #define COMPUTATIONAL_GRAPH_CALCNODE_H
 
+#include <vector>
+#include <cmath>
 #include "node.h"
 
 template<typename _T>
