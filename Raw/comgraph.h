@@ -37,7 +37,7 @@ public:
     //获取指定关键字节点的节点地址
 
     template<typename _CN>
-    Node<_T> *BuildCalcNode(string, const _CN &, std::vector<Node<_T> *>);
+    Node<_T> *BuildCalcNode(string, std::vector<Node<_T> *>);
 
     /*
       这个地方出于可扩展性的考虑，没有直接把所有的feature放进来

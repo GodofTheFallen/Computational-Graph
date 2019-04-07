@@ -3,7 +3,6 @@
 #include "basic_calc_pack.h"
 
 using namespace std;
-const PluCNode<double> PluCNode_double_Example(nullptr, nullptr);
 
 int main()
 {
@@ -33,6 +32,5 @@ int main()
         }
     }
     //初始节点的建立
-
     return 0;
 }
