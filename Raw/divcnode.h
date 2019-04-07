@@ -1,5 +1,5 @@
-#ifndef COMPUTATIONAL_GRAPH_SINGCNODE_H
-#define COMPUTATIONAL_GRAPH_SINGCNODE_H
+#ifndef COMPUTATIONAL_GRAPH_DIVCNODE_H
+#define COMPUTATIONAL_GRAPH_DIVCNODE_H
 
 #include"calcnode.h"
 
@@ -7,11 +7,11 @@ template<typename _T>
 class DivCNode : public CalcNode<_T>
 {
 protected:
-	_T Calc(); //ÖØÔØCalc£¬ÔÚÕâÀï½øĞĞ¼ÆËã
+	_T Calc(); //é‡è½½Calcï¼Œåœ¨è¿™é‡Œè¿›è¡Œè®¡ç®—
 
 public:
 	using CalcNode<_T>::OperandNum;
-	using CalcNode<_T>::Operands; //Ö±½Ó½«»ùÀàµÄ²Ù×÷ÔªusingÏÂÀ´£¬¼ò»¯´úÂë
+	using CalcNode<_T>::Operands; //ç›´æ¥å°†åŸºç±»çš„æ“ä½œå…ƒusingä¸‹æ¥ï¼Œç®€åŒ–ä»£ç 
 
 	DivCNode(Node<_T> &_Ope0, Node<_T> &_Ope1)
 	{
@@ -20,8 +20,14 @@ public:
 		Operands[0] = &_Ope0;
 		Operands[1] = &_Ope1;
 	}
-
-	//²»ĞèÒªÌØ±ğµÄÇå³ıºÍÎö¹¹£¬ÒòÎªÃ»ÓĞ¶àÓà³ÉÔ±
+	explicit DivCNode(std::vector<Node<_T> *> OperandsList)
+	{
+		CalcNode<_T>(2);
+		Operands = new Node<_T> *[2];
+		for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
+	}
+	//ä»å«æœ‰æ‰€æœ‰å‚æ•°åœ°å€çš„vectorå»ºç«‹
+	//ä¸éœ€è¦ç‰¹åˆ«çš„æ¸…é™¤å’Œææ„ï¼Œå› ä¸ºæ²¡æœ‰å¤šä½™æˆå‘˜
 };
 
-#endif //COMPUTATIONAL_GRAPH_DOUCNODE_H
+#endif //COMPUTATIONAL_GRAPH_DIVCNODE_H

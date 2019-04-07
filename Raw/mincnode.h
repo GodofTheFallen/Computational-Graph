@@ -1,5 +1,5 @@
-#ifndef COMPUTATIONAL_GRAPH_SINGCNODE_H
-#define COMPUTATIONAL_GRAPH_SINGCNODE_H
+#ifndef COMPUTATIONAL_GRAPH_MINCNODE_H
+#define COMPUTATIONAL_GRAPH_MINCNODE_H
 
 #include"calcnode.h"
 
@@ -20,8 +20,14 @@ public:
 		Operands[0] = &_Ope0;
 		Operands[1] = &_Ope1;
 	}
-
+	explicit MinCNode(std::vector<Node<_T> *> OperandsList)
+	{
+		CalcNode<_T>(2);
+		Operands = new Node<_T> *[2];
+		for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
+	}
+	//从含有所有参数地址的vector建立
 	//不需要特别的清除和析构，因为没有多余成员
 };
 
-#endif //COMPUTATIONAL_GRAPH_DOUCNODE_H
+#endif //COMPUTATIONAL_GRAPH_MINCNODE_H
