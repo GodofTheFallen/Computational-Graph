@@ -14,12 +14,15 @@ public:
 
     virtual ~Node()
     {
-        if (Result) {
-            delete Result;
-            Result = nullptr;
-        }
+        Clear();
     }
-}
+};
 
+template<typename _T>
+void Node<_T>::Clear()
+{
+    if (Result) delete Result;
+    Result = nullptr;
+}
 
 #endif //COMPUTATIONAL_GRAPH_NODE_H

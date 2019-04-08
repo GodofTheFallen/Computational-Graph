@@ -22,5 +22,19 @@ public:
 
 };
 
+template<typename _T>
+_T PriNode<_T>::Print()
+{
+    Result = new _T(WatchNode->GetVal());
+    return *Result;
+}
+
+template<typename _T>
+_T PriNode<_T>::GetVal()
+{
+    if (!Result) Print();
+    return *Result;
+}
+
 
 #endif //COMPUTATIONAL_GRAPH_PRINODE_H

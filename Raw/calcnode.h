@@ -16,6 +16,8 @@ protected:
 
 public:
 
+    using Node<_T>::Result;
+
     explicit CalcNode(int _OpeNum) : OperandNum(_OpeNum) { Node<_T>(); }
 
     _T GetVal();
@@ -29,5 +31,22 @@ public:
     }
 };
 
+template<typename _T>
+_T CalcNode<_T>::GetVal()
+{
+    if (Result) return *Result;
+    for (int i = 0; i < OperandNum; ++i)
+        Operands[i]->GetVal();
+    Calc();
+    return *Result;
+}
+
+template<typename _T>
+void CalcNode<_T>::Clear()
+{
+    for (int i = 0; i < Operands; ++i)
+        Operands[i]->Clear();
+    Node<_T>::Clear();
+}
 
 #endif //COMPUTATIONAL_GRAPH_CALCNODE_H

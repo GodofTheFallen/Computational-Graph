@@ -22,5 +22,13 @@ public:
     }
 };
 
+template<typename _T>
+_T ConNode<_T>::GetVal()
+{
+    return *ConVal;
+}
+
+template<typename _T>
+void ConNode<_T>::Clear() {}
 
 #endif //COMPUTATIONAL_GRAPH_CONNODE_H
