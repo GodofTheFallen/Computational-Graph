@@ -46,7 +46,7 @@ _T CalcNode<_T>::GetVal()
 template<typename _T>
 void CalcNode<_T>::Clear()
 {
-    for (int i = 0; i < Operands; ++i)
+    for (int i = 0; i < OperandNum; ++i)
         Operands[i]->Clear();
     Node<_T>::Clear();
 }
