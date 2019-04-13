@@ -1,6 +1,8 @@
 #include <iostream>
 #include "comgraph.h"
 #include "basic_calc_pack.h"
+#include "advanced_calc_pack.h"
+#include "compare_calc_pack.h"
 
 using namespace std;
 
