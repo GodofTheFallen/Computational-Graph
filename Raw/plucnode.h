@@ -25,7 +25,7 @@ public:
 template<typename _T>
 _T PluCNode<_T>::Calc()
 {
-    Result = new _T(OperandNum[0] + OperandNum[1]);
+    Result = new _T(Operands[0]->GetVal() + Operands[1]->GetVal());
     return *Result;
 }
 
