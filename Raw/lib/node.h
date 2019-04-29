@@ -12,7 +12,7 @@ public:
     virtual _T GetVal() = 0; //获取节点的计算结果
     virtual void Clear() = 0;  //清除节点的计算结果
 
-    virtual ~Node()
+    virtual ~Node() //析构时必须释放Result
     {
         Clear();
     }
