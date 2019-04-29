@@ -30,11 +30,11 @@
 7. CompNode : CalcNode
 
     ```  
-        >
-        <
-        >=
-        <=
-        ==
+        >   GTCNode
+        <   LSCNode
+        >=  GECNode
+        <=  LECNode
+        ==  EqCNode
     ```    
 4. CondNode : CalcNode
 

@@ -1,6 +1,8 @@
 #ifndef COMPUTATIONAL_GRAPH_CALCNODE_H
 #define COMPUTATIONAL_GRAPH_CALCNODE_H
 
+#include <vector>
+#include <cmath>
 #include "node.h"
 
 template<typename _T>
@@ -16,7 +18,21 @@ protected:
 
 public:
 
+    using Node<_T>::Result;
+
     explicit CalcNode(int _OpeNum) : OperandNum(_OpeNum) { Node<_T>(); }
+
+    CalcNode(int _OpeNum, const std::vector<Node<_T> *> &OperandsList) : OperandNum(_OpeNum)
+    {
+        Operands = new Node<_T> *[OperandNum];
+        for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
+    }
+
+    explicit CalcNode(const std::vector<Node<_T> *> &OperandsList) : OperandNum(OperandsList.size())
+    {
+        Operands = new Node<_T> *[OperandNum];
+        for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
+    }
 
     _T GetVal();
 
@@ -29,5 +45,22 @@ public:
     }
 };
 
+template<typename _T>
+_T CalcNode<_T>::GetVal()
+{
+    if (Result) return *Result;
+    for (int i = 0; i < OperandNum; ++i)
+        Operands[i]->GetVal();
+    Calc();
+    return *Result;
+}
+
+template<typename _T>
+void CalcNode<_T>::Clear()
+{
+    for (int i = 0; i < OperandNum; ++i)
+        Operands[i]->Clear();
+    Node<_T>::Clear();
+}
 
 #endif //COMPUTATIONAL_GRAPH_CALCNODE_H
