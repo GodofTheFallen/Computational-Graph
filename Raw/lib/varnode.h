@@ -7,6 +7,7 @@ template<typename _T>
 class VarNode : PHNode<_T>
 {
 private:
+    const std::string ErrMsg = "Error: holder missing";
 public:
     using PHNode<_T>::Result;
 
@@ -31,7 +32,8 @@ void VarNode<_T>::ForcedClear()
 template<typename _T>
 _T VarNode<_T>::GetVal()
 {
-
+    if (!Result) throw ErrMsg;
+    return *Result;
 }
 
 

@@ -12,13 +12,7 @@ public:
     using CalcNode<_T>::Result;
     using CalcNode<_T>::OperandNum;
     using CalcNode<_T>::Operands;           //Using 基类的操作元
-
-    explicit GTCNode(std::vector<Node<_T> *> OperandsList) //从Vector建立
-    {
-        CalcNode<_T>(2);
-        Operands = new Node<_T> *[2];
-        for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
-    }  //Vector 构造
+    using CalcNode<_T>::CalcNode;
 };
 
 

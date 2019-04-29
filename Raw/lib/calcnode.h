@@ -22,6 +22,18 @@ public:
 
     explicit CalcNode(int _OpeNum) : OperandNum(_OpeNum) { Node<_T>(); }
 
+    CalcNode(int _OpeNum, const std::vector<Node<_T> *> &OperandsList) : OperandNum(_OpeNum)
+    {
+        Operands = new Node<_T> *[OperandNum];
+        for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
+    }
+
+    CalcNode(const std::vector<Node<_T> *> &OperandsList) : OperandNum(OperandsList.size())
+    {
+        Operands = new Node<_T> *[OperandNum];
+        for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
+    }
+
     _T GetVal();
 
     void Clear(); //所有的CalcNode都可以一起清除
