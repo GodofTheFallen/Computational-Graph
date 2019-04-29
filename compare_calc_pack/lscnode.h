@@ -4,7 +4,7 @@
 #include"../lib/calcnode.h"
 
 template<typename _T>
-class LSCNode : public CalcNode<_T> //比较运算符GTCNode
+class LSCNode : public CalcNode<_T> //比较运算符LSCNode
 {
 protected:
     _T Calc(); //重载Calc，在这里进行计算
