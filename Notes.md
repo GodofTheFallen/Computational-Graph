@@ -50,27 +50,49 @@
 
 ### PHNode : Node
 
+`PHNode` 继承自 `Node` ，是占位符节点
+
+#### 私有成员列表
+
+##### `const std::string ErrMsg;`
+
+一个字符串，会在需要 `GetVal()` 但本节点并未被赋值时被作为异常抛出
+
+#### 公开成员列表
+
+##### `_T GetVal();`
+
+重载基类的 `GetVal()` ，返回被 `SetVal(_T)` 赋的值
+
+若未被 `SetVal(_T)` 赋值过，则抛出 `ErrMsg`
+
+##### `_T SetVal(_T);`
+
+在Eval的时候会被调用，给该节点赋值，结果储存在 `*Result`
+
 <br/>
 
 ### CalcNode : Node
 
 `CalcNode` 继承自 `Node` ，是进行计算操作的节点，是虚基类
 
-#### 成员列表
+#### 保护成员列表
 
 ##### `const int OperandNum;`
 
-记录计算节点操作元的个数，由派生类调用 `CalcNode(int)` 进行初始化
+记录计算节点操作元的个数
 
 ##### `Node<_T> **Operands;`
 
-指向操作元的指针数组，由派生类初始化
+指向操作元的指针数组
 
 ##### `virtual _T Calc() = 0;`
 
 虚函数，进行计算，结果储存在 `Result` 中
 
 不可从外部调用，仅在 `Result` 为空指针时由 `GetVal()` 调用
+
+#### 公开成员列表
 
 ##### `_T GetVal();`
 
@@ -90,16 +112,10 @@
 
 包含四个双目运算节点：加减乘除四则运算
 
-都继承自 `CalcNode` ，仅重载了 `Calc()`
+详见 `basic_calc_pack/Notes.md`
 
-<br/>
+### 派生类包：高级计算节点 `advanced_calc_pack.h`
 
-<br/>
+包含五个单目运算符，仅可用于 double 类型的计算图
 
-#### PluCNode
-
-`PluCNode` 是加法节点
-
-实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相加，储存在 `Result` 中并返回
-
-<br/>
+详见 `basic_calc_pack/Notes.md`
