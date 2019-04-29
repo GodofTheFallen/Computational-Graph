@@ -4,22 +4,22 @@
 #include"../lib/calcnode.h"
 
 template<typename _T>
-class EQCNode : public CalcNode<_T> //比较运算符EQCNode
+class EQCNode : public CalcNode<_T> //姣旇緝杩愮畻绗QCNode
 {
 protected:
-	_T Calc(); //重载Calc，在这里进行计算
+    _T Calc(); //閲嶈浇Calc锛屽湪杩欓噷杩涜璁＄畻
 public:
-	using CalcNode<_T>::Result;
-	using CalcNode<_T>::OperandNum;
-	using CalcNode<_T>::Operands;           //Using 基类的操作元
-	using CalcNode<_T>::CalcNode;
+    using CalcNode<_T>::Result;
+    using CalcNode<_T>::OperandNum;
+    using CalcNode<_T>::Operands;           //Using 鍩虹被鐨勬搷浣滃厓
+    using CalcNode<_T>::CalcNode;
 };
 
 template<>
 double EQCNode<double>::Calc()
 {
-	Result = new double(Operands[0]->GetVal() == Operands[1]->GetVal());
-	return *Result;
+    Result = new double(Operands[0]->GetVal() == Operands[1]->GetVal());
+    return *Result;
 }
 
 #endif //COMPUTATIONAL_GRAPH_EQCNODE_H
