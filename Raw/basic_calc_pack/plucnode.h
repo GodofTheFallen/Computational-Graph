@@ -1,7 +1,7 @@
 #ifndef COMPUTATIONAL_GRAPH_PLUCNODE_H
 #define COMPUTATIONAL_GRAPH_PLUCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
 class PluCNode : public CalcNode<_T>
@@ -13,13 +13,7 @@ public:
     using CalcNode<_T>::Result;
     using CalcNode<_T>::OperandNum;
     using CalcNode<_T>::Operands;
-
-    explicit PluCNode(std::vector<Node<_T> *> OperandsList) //从Vector建立
-    {
-        CalcNode<_T>(2);
-        Operands = new Node<_T> *[2];
-        for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
-    }
+    using CalcNode<_T>::CalcNode;
 };
 
 template<typename _T>

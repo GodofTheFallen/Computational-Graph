@@ -1,7 +1,7 @@
 #ifndef COMPUTATIONAL_GRAPH_MINCNODE_H
 #define COMPUTATIONAL_GRAPH_MINCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
 class MinCNode : public CalcNode<_T>

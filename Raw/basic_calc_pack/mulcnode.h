@@ -1,7 +1,7 @@
 #ifndef COMPUTATIONAL_GRAPH_MULCNODE_H
 #define COMPUTATIONAL_GRAPH_MULCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
 class MulCNode : public CalcNode<_T>

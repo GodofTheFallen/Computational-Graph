@@ -1,7 +1,7 @@
 #ifndef COMPUTATIONAL_GRAPH_TANHCNODE_H
 #define COMPUTATIONAL_GRAPH_TANHCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
 class TanhCNode : public CalcNode<_T>

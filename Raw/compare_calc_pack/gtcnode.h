@@ -1,7 +1,7 @@
 #ifndef COMPUTATIONAL_GRAPH_GTCNODE_H
 #define COMPUTATIONAL_GRAPH_GTCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
 class GTCNode : public CalcNode<_T> //比较运算符GTCNode
@@ -14,7 +14,6 @@ public:
     using CalcNode<_T>::Operands;           //Using 基类的操作元
     using CalcNode<_T>::CalcNode;
 };
-
 
 template<>
 double GTCNode<double>::Calc()

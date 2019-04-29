@@ -1,7 +1,7 @@
 #ifndef COMPUTATIONAL_GRAPH_SIGCNODE_H
 #define COMPUTATIONAL_GRAPH_SIGCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
 class SigCNode : public CalcNode<_T>

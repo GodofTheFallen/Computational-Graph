@@ -1,7 +1,7 @@
 #ifndef COMPUTATIONAL_GRAPH_SINCNODE_H
 #define COMPUTATIONAL_GRAPH_SINCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
 class SinCNode : public CalcNode<_T>
