@@ -1,10 +1,10 @@
-#ifndef COMPUTATIONAL_GRAPH_PLUCNODE_H
-#define COMPUTATIONAL_GRAPH_PLUCNODE_H
+#ifndef COMPUTATIONAL_GRAPH_MINCNODE_H
+#define COMPUTATIONAL_GRAPH_MINCNODE_H
 
-#include"calcnode.h"
+#include"../lib/calcnode.h"
 
 template<typename _T>
-class PluCNode : public CalcNode<_T>
+class MinCNode : public CalcNode<_T>
 {
 protected:
     _T Calc(); //重载Calc，在这里进行计算
@@ -13,7 +13,7 @@ public:
     using CalcNode<_T>::OperandNum;
     using CalcNode<_T>::Operands; //直接将基类的操作元using下来，简化代码
 
-    PluCNode(Node<_T> *_Ope0, Node<_T> *_Ope1)
+    MinCNode(Node<_T> *_Ope0, Node<_T> *_Ope1)
     {
         CalcNode<_T>(2);
         Operands = new Node<_T> *[2];
@@ -21,7 +21,7 @@ public:
         Operands[1] = _Ope1;
     }
 
-    explicit PluCNode(std::vector<Node<_T> *> OperandsList)
+    explicit MinCNode(std::vector<Node<_T> *> OperandsList)
     {
         CalcNode<_T>(2);
         Operands = new Node<_T> *[2];
@@ -31,4 +31,4 @@ public:
     //不需要特别的清除和析构，因为没有多余成员
 };
 
-#endif //COMPUTATIONAL_GRAPH_PLUCNODE_H
+#endif //COMPUTATIONAL_GRAPH_MINCNODE_H
