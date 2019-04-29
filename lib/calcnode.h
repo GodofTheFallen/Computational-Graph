@@ -28,7 +28,7 @@ public:
         for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
     }
 
-    CalcNode(const std::vector<Node<_T> *> &OperandsList) : OperandNum(OperandsList.size())
+    explicit CalcNode(const std::vector<Node<_T> *> &OperandsList) : OperandNum(OperandsList.size())
     {
         Operands = new Node<_T> *[OperandNum];
         for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
