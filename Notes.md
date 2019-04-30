@@ -1,5 +1,15 @@
 #开发注记
 
+## 设计思路
+
+### `class Node` 及其派生类
+
+对于计算图的每一个节点
+
+### `CalcNode` 的处理
+
+### `ComGraph`
+
 ## 库与类功能介绍
 
 ### Node
@@ -51,6 +61,30 @@
 ### PHNode : Node
 
 `PHNode` 继承自 `Node` ，是占位符节点
+
+#### 私有成员列表
+
+##### `const std::string ErrMsg;`
+
+一个字符串，会在需要 `GetVal()` 但本节点并未被赋值时被作为异常抛出
+
+#### 公开成员列表
+
+##### `_T GetVal();`
+
+重载基类的 `GetVal()` ，返回被 `SetVal(_T)` 赋的值
+
+若未被 `SetVal(_T)` 赋值过，则抛出 `ErrMsg`
+
+##### `_T SetVal(_T);`
+
+在Eval的时候会被调用，给该节点赋值，结果储存在 `*Result`
+
+<br/>
+
+### VarNode : PHNode
+
+`VarNode` 继承自 `PHNode` ，是变量节点
 
 #### 私有成员列表
 

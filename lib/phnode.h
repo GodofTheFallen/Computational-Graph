@@ -8,7 +8,7 @@ template<typename _T>
 class PHNode : public Node<_T>
 {
 private:
-    const std::string ErrMsg = "Error: Placeholder missing"; //需要输出的错误信息
+    static const std::string ErrMsg; //需要输出的错误信息，设定为静态
 public:
     using Node<_T>::Result;
 
@@ -18,6 +18,9 @@ public:
 
     using Node<_T>::Clear;
 };
+
+template<typename _T>
+const std::string PHNode<_T>::ErrMsg = "Error: Placeholder missing"; //类外定义
 
 template<typename _T>
 _T PHNode<_T>::GetVal()

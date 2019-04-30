@@ -8,6 +8,7 @@ template<typename _T>
 class PriNode : Node<_T>
 {
 protected:
+    std::string WatchName; //需要被输出的节点名称
     Node<_T> *WatchNode; //需要被输出的节点
     std::ostream &OUTPUT;
 
@@ -16,7 +17,7 @@ protected:
 public:
     using Node<_T>::Result;
 
-    explicit PriNode(Node<_T> &_NtoW, std::ostream &_OSTR) : WatchNode(_NtoW), OUTPUT(_OSTR) {};
+    explicit PriNode(std::string _NtoWName, Node<_T> *_NtoW, std::ostream &_OSTR) : WatchNode(_NtoW), OUTPUT(_OSTR) {};
 
     _T GetVal();
 
