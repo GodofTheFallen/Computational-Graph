@@ -4,7 +4,7 @@
 #include "phnode.h"
 
 template<typename _T>
-class VarNode : PHNode<_T>
+class VarNode : public PHNode<_T>
 {
 private:
     static const std::string ErrMsg;  //需要输出的错误信息，设定为静态

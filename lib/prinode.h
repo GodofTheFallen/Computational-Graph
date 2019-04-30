@@ -5,7 +5,7 @@
 #include "node.h"
 
 template<typename _T>
-class PriNode : Node<_T>
+class PriNode : public Node<_T>
 {
 protected:
     std::string WatchName; //需要被输出的节点名称

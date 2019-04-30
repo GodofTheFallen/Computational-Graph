@@ -138,7 +138,13 @@ _T ComGraph<_T>::Eval(string NodeName, vector<pair<string, _T>> PHList)
     for (int i = 0; i < PHList.size(); ++i) SetPHNodeVal(GetNode(PHList[i].first), PHList[i].second);
     //先对所有占位节点赋值
     Node<_T> *Target = GetNode(NodeName); //获取目标节点地址
-    _T Res = Target->GetVal(); //计算
+    _T Res;
+    try {
+        Res = Target->GetVal(); //计算
+    }
+    catch (string &ErrMsg) {
+        ErrOut << ErrMsg << endl;
+    }
     Target->Clear(); //清除中间结果
     for (int i = 0; i < PHList.size(); ++i) GetNode(PHList[i].first)->Clear(); //清除对占位符的赋值
     return Res; //返回答案
@@ -188,6 +194,19 @@ Node<_T> *ComGraph<_T>::BuildPriNode(string NodeName, string WatchName, ostream 
     Node<_T> *temp = new PriNode<_T>(WatchName, GetNode(WatchName), _OSTR);
     Index[NodeName] = temp;
     return temp;
+}
+
+template<typename _T>
+_T ComGraph<_T>::RecInHistory(_T Ans)
+{
+    AnsHistory.push_back(Ans);
+    return Ans;
+}
+
+template<typename _T>
+_T ComGraph<_T>::ReadFromHistory(int Pos)
+{
+    return AnsHistory[Pos];
 }
 
 #endif //COMPUTATIONAL_GRAPH_COMGRAPH_H
