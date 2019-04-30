@@ -8,19 +8,19 @@ class MinCNode : public CalcNode<_T>
 {
 protected:
     _T Calc(); //重载Calc，在这里进行计算
-	
+
 public:
-	using CalcNode<_T>::Result;
-	using CalcNode<_T>::OperandNum;
-	using CalcNode<_T>::Operands;
-	using CalcNode<_T>::CalcNode;
+    using CalcNode<_T>::Result;
+    using CalcNode<_T>::OperandNum;
+    using CalcNode<_T>::Operands;
+    using CalcNode<_T>::CalcNode;
 };
 
 template<typename _T>
 _T MinCNode<_T>::Calc()
 {
-	Result = new _T(Operands[0]->GetVal() - Operands[1]->GetVal());
-	return *Result;
+    Result = new _T(Operands[0]->GetVal() - Operands[1]->GetVal());
+    return *Result;
 }
 
 #endif //COMPUTATIONAL_GRAPH_MINCNODE_H
