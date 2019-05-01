@@ -27,6 +27,7 @@ template<typename _T>
 _T PriNode<_T>::Print()
 {
     Result = new _T(WatchNode->GetVal());
+    OUTPUT << "PRINT operator: " << WatchName << " = " << *Result << std::endl; //输出观察结果
     return *Result;
 }
 
