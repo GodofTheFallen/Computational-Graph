@@ -7,6 +7,7 @@
 using namespace std;
 ostream &ErrOut = cout; //应项目要求，错误信息向cout输出
 ostream &PriOut = cout; //应项目要求，PriNode信息向cout输出
+ostream &AnsOut = cout; //答案输出至cout
 
 int main()
 {
@@ -55,7 +56,6 @@ int main()
         if (TempStr == "SIN" || TempStr == "LOG" || TempStr == "EXP" || TempStr == "TANH" ||
             TempStr == "SIGMOID") { //单目
             cin >> TempStr;
-            OperandsList.clear();
             OperandsList.push_back(TempStr);
             if (TempStr == "SIN")
                 Sample_Graph.BuildCalcNode<SinCNode<double>>(NodeName, 1, OperandsList);
@@ -70,8 +70,7 @@ int main()
         } else if (TempStr == "PRINT") {
             Sample_Graph.BuildPriNode(NodeName, TempStr);
         } else if (TempStr == "COND") { //条件
-            OperandsList.clear();
-            for (int i = 1; i <= 3; ++i) { //这里继续用i不虚，因为临时定义，不会对原来的i产生影响
+            for (int j = 1; j <= 3; ++j) {
                 cin >> TempStr;
                 OperandsList.push_back(TempStr);
             }
@@ -79,7 +78,6 @@ int main()
         } else if (Sample_Graph.FindNode(TempStr)) { //双目
             string OP1 = TempStr, OP2, OPRT;
             cin >> OPRT >> OP2;
-            OperandsList.clear();
             OperandsList.push_back(OP1);
             OperandsList.push_back(OP2);
             if (OPRT == "+")
@@ -109,7 +107,34 @@ int main()
     //命令执行-------------BEGIN-------
     cin >> n;
     for (int i = 1; i <= n; ++i) {
+        string Command, NodeName;
+        cin >> Command;
+        double Res = 0;
+        if (Command == "EVAL") {
+            int InitPHNum;
+            cin >> NodeName >> InitPHNum;
+            vector<pair<string, double>> PHList;
+            for (int j = 1; j <= InitPHNum; ++j) {
+                string PHName;
+                double Val;
+                cin >> PHName >> Val;
+                PHList.push_back(make_pair(PHName, Val));
+            }
+            Res = Sample_Graph.Eval(NodeName, PHList);
 
+            AnsOut << Res << endl;
+        } else if (Command == "SETANSWER") {
+            cin >> NodeName;
+            int AnsPos;
+            cin >> AnsPos;
+            Sample_Graph.SetVarVal(NodeName, Sample_Graph.ReadFromHistory(AnsPos));
+        } else if (Command == "SETCONSTANT") {
+            cin >> NodeName;
+            double Val;
+            cin >> Val;
+            Sample_Graph.SetVarVal(NodeName, Val);
+        }
+        Sample_Graph.RecInHistory(Res);
     }
     //命令执行--------------END--------
     return 0;

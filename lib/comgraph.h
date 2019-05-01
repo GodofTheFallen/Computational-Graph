@@ -105,7 +105,7 @@ template<typename _T>
 _T ComGraph<_T>::SetPHNodeVal(Node<_T> *NodetoSet, _T Val)
 {
     dynamic_cast<PHNode<_T> *>(NodetoSet)->SetVal(Val); //安全类型转换，调用SetVal
-    return *(NodetoSet->GetVal()); //返回值本身没什么作用，但是能返回代表成功了
+    return NodetoSet->GetVal(); //返回值本身没什么作用，但是能返回代表成功了
 }
 
 template<typename _T>
@@ -113,7 +113,7 @@ _T ComGraph<_T>::SetVarVal(string NodeName, _T Val)
 {
     Node<_T> *NodetoSet = GetNode(NodeName); //获取
     dynamic_cast<VarNode<_T> *>(NodetoSet)->SetVal(Val);
-    return *(NodetoSet->GetVal()); //返回值本身没什么作用，但是能返回代表成功了
+    return NodetoSet->GetVal(); //返回值本身没什么作用，但是能返回代表成功了
 }
 
 /*
