@@ -1,6 +1,8 @@
 #ifndef COMPUTATIONAL_GRAPH_CONDNODE_H
 #define COMPUTATIONAL_GRAPH_CONDNODE_H
 
+#include "../lib/calcnode.h"
+
 template<typename _T>
 class CondNode : public CalcNode<_T>
 {
