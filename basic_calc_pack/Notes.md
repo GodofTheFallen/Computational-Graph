@@ -17,7 +17,7 @@
 3. `MulCNode` 乘法节点
 4. `DivCNode` 除法节点
 
-都继承自 `CalcNode` ，仅重载了 `Calc()`
+都继承自 `CalcNode` ，仅重载了 `<double>` 版本的 `Calc()`
 
 <br/>
 

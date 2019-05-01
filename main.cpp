@@ -19,6 +19,10 @@ int main()
         char NodeType;
         double val;
         cin >> NodeName >> NodeType; //cin会默认跳过空字符，所以不用getchar()
+        if (Sample_Graph.FindNode(NodeName)) { //输入节点重名，输出错误信息，强行终止程序
+            ErrOut << "ERROR: " << NodeName << " already exist" << endl;
+            return i;
+        }
         switch (NodeType) {
             case 'C': //创建ConNode
                 cin >> val;
@@ -30,7 +34,7 @@ int main()
             case 'V': //创建VarNode
                 cin >> val;
                 Sample_Graph.BuildVarNode(NodeName, val);
-                break;
+                break; //虽然VarNode还可以不赋初值构造，但是并没有这样的输入，所以我也没写这样的操作
             default:  //异常输入，输出错误信息，强行终止程序
                 ErrOut << "ERROR: Failed to build " << NodeName << endl;
                 exit(i);
@@ -43,8 +47,13 @@ int main()
         string NodeName, TempStr;
         vector<string> OperandsList;
         cin >> NodeName >> TempStr; //多读一个等号
+        if (Sample_Graph.FindNode(NodeName)) { //输入节点重名，输出错误信息，强行终止程序
+            ErrOut << "ERROR: " << NodeName << " already exist" << endl;
+            return i;
+        }
         cin >> TempStr;
-        if (TempStr == "SIN" || TempStr == "LOG" || TempStr == "EXP" || TempStr == "TANH" || TempStr == "SIGMOID") {
+        if (TempStr == "SIN" || TempStr == "LOG" || TempStr == "EXP" || TempStr == "TANH" ||
+            TempStr == "SIGMOID") { //单目
             cin >> TempStr;
             OperandsList.clear();
             OperandsList.push_back(TempStr);
@@ -60,14 +69,14 @@ int main()
                 Sample_Graph.BuildCalcNode<SigCNode<double>>(NodeName, 1, OperandsList);
         } else if (TempStr == "PRINT") {
             Sample_Graph.BuildPriNode(NodeName, TempStr);
-        } else if (TempStr == "COND") { //
+        } else if (TempStr == "COND") { //条件
             OperandsList.clear();
-            for (int i = 1; i <= 3; ++i) {
+            for (int i = 1; i <= 3; ++i) { //这里继续用i不虚，因为临时定义，不会对原来的i产生影响
                 cin >> TempStr;
                 OperandsList.push_back(TempStr);
             }
             Sample_Graph.BuildCalcNode<CondNode<double>>(NodeName, 3, OperandsList);
-        } else if (Sample_Graph.FindNode(TempStr)) { //双目运算符
+        } else if (Sample_Graph.FindNode(TempStr)) { //双目
             string OP1 = TempStr, OP2, OPRT;
             cin >> OPRT >> OP2;
             OperandsList.clear();
@@ -91,14 +100,17 @@ int main()
                 Sample_Graph.BuildCalcNode<LECNode<double>>(NodeName, 2, OperandsList);
             else if (OPRT == "==")
                 Sample_Graph.BuildCalcNode<EQCNode<double>>(NodeName, 2, OperandsList);
-        } else { //错误输入，输出错误信息，强行终止程序
+        } else { //异常输入，输出错误信息，强行终止程序
             ErrOut << "ERROR: Failed to build " << NodeName << endl;
             exit(i);
         }
     }
     //依赖节点的建立--------END--------
     //命令执行-------------BEGIN-------
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
 
+    }
     //命令执行--------------END--------
     return 0;
 }

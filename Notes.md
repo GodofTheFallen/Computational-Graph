@@ -1,5 +1,7 @@
 #开发注记
 
+这篇注记比较长，推荐导出成 pdf 结合自动生成的目录查阅哦！
+
 ## 设计思路
 
 ### `class Node` 及其派生类
@@ -148,8 +150,6 @@
 
 <br/>
 
-
-
 ## 扩展包介绍
  
 ### 派生类包：基础计算节点 `basic_calc_pack.h`
@@ -169,11 +169,13 @@
 包含五个双目逻辑运算节点和一个三目条件计算节点，仅可用于 double 类型的计算图
 
 详见 `compare_calc_pack/Notes.md`
+ 
+<br>
 
 ## 如何自定义计算节点
 
 ```c++
-#include"../lib/calcnode.h" //或换成你需要的相对路径
+#include "../lib/calcnode.h" //或换成你需要的相对路径
 
 template<typename _T>
 class COSTOM_NODE_NAME : public CalcNode<_T>

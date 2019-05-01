@@ -16,10 +16,10 @@ public:
 	using CalcNode<_T>::CalcNode;
 };
 
-template<typename _T>
-_T MulCNode<_T>::Calc()
+template<>
+double MulCNode<double>::Calc()
 {
-	Result = new _T(Operands[0]->GetVal() * Operands[1]->GetVal());
+	Result = new double(Operands[0]->GetVal() * Operands[1]->GetVal());
 	return *Result;
 }
 
