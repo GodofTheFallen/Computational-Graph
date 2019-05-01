@@ -12,7 +12,7 @@ Linux ， Windows 平台皆可，推荐 Linux
 
 在 `.` 目录下运行
 ```
-$ cmake CMakeLists.txt
+$ cmake .
 $ make
 $ ./main
 ```
@@ -133,7 +133,7 @@ $ ./main
 `NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: Nodename NODENAME not found` ，并强行终止程序
 
 `K` 是一个整数，表示将第 $K$ 次命令的答案赋值给 `NODENAME`
- 
+
  保证该次操作为求值命令
 
 #### 变量赋值为常量
@@ -145,7 +145,7 @@ $ ./main
 `NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: Nodename NODENAME not found` ，并强行终止程序
 
 `V` 是一个实数，表示将 $V$ 赋值给 `NODENAME`
- 
+
 ## 错误信息速查
 
 ###
