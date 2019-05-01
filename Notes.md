@@ -118,7 +118,7 @@
 
 ##### `Node<_T> **Operands;`
 
-指向操作元的指针数组
+指向所有操作元的指针数组
 
 ##### `virtual _T Calc() = 0;`
 
@@ -136,9 +136,19 @@
 
 重载基类的清除函数，会在清除自身答案前递归调用所有操作元的清除函数
 
+#### 构造函数
+
+##### `CalcNode(int, const vector<Node<_T> *> &)`
+
+推荐的构造方法，给出操作元个数，给出操作元指针列表来初始化一个CalcNode（的派生类），可以有效避免vector后面一不小心加入了多余的东西
+
+##### `CalcNode(const vector<Node<_T> *> &)`
+
+仅给出操作元指针列表来初始化一个CalcNode（的派生类），请确保指针列表仅仅只含有操作元的指针
+
 <br/>
 
----
+
 
 ## 扩展包介绍
  
@@ -150,6 +160,42 @@
 
 ### 派生类包：高级计算节点 `advanced_calc_pack.h`
 
-包含五个单目运算符，仅可用于 double 类型的计算图
+包含五个单目运算节点，仅可用于 double 类型的计算图
 
-详见 `basic_calc_pack/Notes.md`
+详见 `advanced_calc_pack/Notes.md`
+
+### 派生类包：比较计算节点 `compare_calc_pack.h`
+
+包含五个双目逻辑运算节点和一个三目条件计算节点，仅可用于 double 类型的计算图
+
+详见 `compare_calc_pack/Notes.md`
+
+## 如何自定义计算节点
+
+```c++
+#include"../lib/calcnode.h" //或换成你需要的相对路径
+
+template<typename _T>
+class COSTOM_NODE_NAME : public CalcNode<_T>
+{
+protected:
+    _T Calc(); //重载Calc，在这里进行计算
+
+public:
+    using CalcNode<_T>::Result;
+    using CalcNode<_T>::OperandNum;
+    using CalcNode<_T>::Operands;
+    using CalcNode<_T>::CalcNode;
+    //以上是进行必要的成员链接，可以简化之后的代码
+};
+
+template<typename _T>
+_T COSTOM_NODE_NAME<_T>::Calc()
+{
+    /*
+    在这里定义计算你的答案，对操作元求值必须用Operands[x]->GetVal()
+    求完值后：Result = new _T(结果);
+    return *Result;这句话其实没啥用，但是能返回代表new成功了    
+    */
+}
+```

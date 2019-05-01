@@ -20,7 +20,7 @@ public:
 };
 
 template<typename _T>
-const std::string PHNode<_T>::ErrMsg = "Error: Placeholder missing"; //类外定义
+const std::string PHNode<_T>::ErrMsg = "ERROR: Placeholder missing"; //类外定义
 
 template<typename _T>
 _T PHNode<_T>::GetVal()

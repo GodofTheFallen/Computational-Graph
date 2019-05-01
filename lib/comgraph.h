@@ -19,8 +19,6 @@ private:
 
     _T SetPHNodeVal(Node<_T> *, _T);
 
-    vector<string> KeywordList;
-
     vector<_T> AnsHistory;
 
     ostream &ErrOut, &PriOut;
@@ -32,15 +30,15 @@ public:
     //构造时载入错误信息和默认PriNode输出流，默认分别为cerr和cout
     {
         Index.clear();
-        KeywordList.clear();
     }
 
     ComGraph(ostream &_ErrO, ostream &_PrO) : ErrOut(_ErrO), PriOut(_PrO)
     //构造时载入错误信息和默认PriNode输出流，如果要自定义，就必须两个一起自定义
     {
         Index.clear();
-        KeywordList.clear();
     }
+
+    bool FindNode(string);
 
     _T SetVarVal(string, _T);    //为变量节点赋值
 
@@ -49,6 +47,8 @@ public:
 
     template<typename _CN>
     Node<_T> *BuildCalcNode(string, std::vector<string>); //推荐，vector包含节点所有依赖节点名称
+    template<typename _CN>
+    Node<_T> *BuildCalcNode(string, int, std::vector<string>); //更推荐，指定操作元个数，vector包含节点所有依赖节点名称
 
     /*
       这个地方出于可扩展性的考虑，没有直接把所有的feature放进来
@@ -76,13 +76,20 @@ public:
 
     _T ReadFromHistory(int);//读取某一次操作的答案
 
+    void clear();
+
     ~ComGraph()
     {
-        for (int i = 0; i < KeywordList.size(); ++i) delete Index[KeywordList[i]];
-        KeywordList.clear();
-        Index.clear();
+        clear();
     }
 };
+//一个安全性考虑，在类外除了节点建立时，不允许通过任何方式获取建立的节点的地址，防止其被提前删除
+
+template<typename _T>
+bool ComGraph<_T>::FindNode(string NodeName)
+{
+    return Index.count(NodeName);
+}
 
 template<typename _T>
 Node<_T> *ComGraph<_T>::GetNode(string NodeName)
@@ -128,6 +135,18 @@ Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, vector<string> OperandNam
     for (int i = 0; i < OperandNameLists.size(); ++i) OperandLists.push_back(GetNode(OperandNameLists[i]));
     //先转换为包含操作元地址的vector
     Node<_T> *temp = new _CN(OperandLists);
+    Index[NodeName] = temp;
+    return temp;
+}
+
+template<typename _T>
+template<typename _CN>
+Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, int OperandNum, vector<string> OperandNameLists)
+{
+    vector<Node<_T> *> OperandLists;
+    for (int i = 0; i < OperandNum; ++i) OperandLists.push_back(GetNode(OperandNameLists[i]));
+    //先转换为包含操作元地址的vector
+    Node<_T> *temp = new _CN(OperandNum, OperandLists);
     Index[NodeName] = temp;
     return temp;
 }
@@ -207,6 +226,14 @@ template<typename _T>
 _T ComGraph<_T>::ReadFromHistory(int Pos)
 {
     return AnsHistory[Pos];
+}
+
+template<typename _T>
+void ComGraph<_T>::clear()
+{
+    for (auto i = Index.begin(); i != Index.end(); ++i) delete (i->second);
+    Index.clear();
+    AnsHistory.clear();
 }
 
 #endif //COMPUTATIONAL_GRAPH_COMGRAPH_H

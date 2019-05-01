@@ -24,7 +24,7 @@ public:
 };
 
 template<typename _T>
-const std::string VarNode<_T>::ErrMsg = "Error: variable missing";
+const std::string VarNode<_T>::ErrMsg = "ERROR: Variable missing";
 
 template<typename _T>
 void VarNode<_T>::ForcedClear()
