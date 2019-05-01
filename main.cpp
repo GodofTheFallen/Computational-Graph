@@ -55,8 +55,9 @@ int main()
         cin >> TempStr;
         if (TempStr == "SIN" || TempStr == "LOG" || TempStr == "EXP" || TempStr == "TANH" ||
             TempStr == "SIGMOID") { //单目
-            cin >> TempStr;
-            OperandsList.push_back(TempStr);
+            string OP;
+            cin >> OP;
+            OperandsList.push_back(OP);
             if (TempStr == "SIN")
                 Sample_Graph.BuildCalcNode<SinCNode<double>>(NodeName, 1, OperandsList);
             else if (TempStr == "LOG")
@@ -67,7 +68,8 @@ int main()
                 Sample_Graph.BuildCalcNode<TanhCNode<double>>(NodeName, 1, OperandsList);
             else if (TempStr == "SIGMOID")
                 Sample_Graph.BuildCalcNode<SigCNode<double>>(NodeName, 1, OperandsList);
-        } else if (TempStr == "PRINT") {
+        } else if (TempStr == "PRINT") { //调试输出
+            cin >> TempStr;
             Sample_Graph.BuildPriNode(NodeName, TempStr);
         } else if (TempStr == "COND") { //条件
             for (int j = 1; j <= 3; ++j) {

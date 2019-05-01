@@ -17,10 +17,12 @@ protected:
 public:
     using Node<_T>::Result;
 
-    explicit PriNode(std::string _NtoWName, Node<_T> *_NtoW, std::ostream &_OSTR) : WatchNode(_NtoW), OUTPUT(_OSTR) {};
+    explicit PriNode(std::string _NtoWName, Node<_T> *_NtoW, std::ostream &_OSTR)
+            : WatchName(_NtoWName), WatchNode(_NtoW), OUTPUT(_OSTR) {};
 
     _T GetVal();
 
+    void Clear();
 };
 
 template<typename _T>
@@ -36,6 +38,13 @@ _T PriNode<_T>::GetVal()
 {
     if (!Result) Print();
     return *Result;
+}
+
+template<typename _T>
+void PriNode<_T>::Clear()
+{
+    WatchNode->Clear();
+    Node<_T>::Clear();
 }
 
 

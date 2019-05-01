@@ -227,7 +227,7 @@ _T ComGraph<_T>::RecInHistory(_T Ans)
 template<typename _T>
 _T ComGraph<_T>::ReadFromHistory(int Pos)
 {
-    return AnsHistory[Pos];
+    return AnsHistory[Pos-1]; //因为命令编号从1开始，而vector下标从0开始
 }
 
 template<typename _T>
