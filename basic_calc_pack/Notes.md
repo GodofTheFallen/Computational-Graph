@@ -1,37 +1,68 @@
-#开发注记
+# 派生类包 : 基本计算节点
 
-##扩展包介绍
+## 基本信息
 
-###派生类包 : 基本计算节点`basic_calc_pack`
-
-包含加减乘除四则运算
-
-都继承自`CalcNode`，仅重载了`Cal()`
+- 文件夹名： `basic_calc_pack`
+- 头文件名： `basic_calc_pack.h`
+- CMake链接库名： `Basic_Calc_Pack`
 
 <br/>
 
-#### PluCNode
+## 概述
 
-`PluCNode`是加法节点
+包含四个双目运算节点
 
-实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相加，储存在 `Result` 中并返回
+1. `PluCNode` 加法节点
+2. `MinCNode` 减法节点
+3. `MulCNode` 乘法节点
+4. `DivCNode` 除法节点
 
-#### MinCNode
+都继承自 `CalcNode` ，仅重载了 `Calc()`
 
-`MinCNode`是减法节点
+<br/>
 
-实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相减，储存在 `Result` 中并返回
+## 派生类介绍
 
-#### MulCNode
+### PluCNode
 
-`MulCNode`是乘法节点
+`PluCNode` 是加法节点
 
-实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相乘，储存在 `Result` 中并返回
+实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相加，储存在 `*Result` 中并返回
 
-#### DivCNode
+### MinCNode
 
-`DivCNode`是除法节点
+`MinCNode` 是减法节点
 
-实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相除，储存在 `Result` 中并返回，输入不合法时可能报错
+实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相减，储存在 `*Result` 中并返回
 
+### MulCNode
 
+`MulCNode` 是乘法节点
+
+实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相乘，储存在 `*Result` 中并返回
+
+### DivCNode
+
+`DivCNode` 是除法节点
+
+实现了成员 `Calc()` ，将两个操作元的 `GetVal()` 返回值相除，储存在 `*Result` 中并返回
+
+除法的第二个操作元不能为0，如果不满足该条件，会抛出 `std::string` 类异常 `"ERROR: Division by zero"`
+
+<br/>
+
+## 使用方法
+
+在主程序中使用 
+
+```c++
+#include "basic_calc_pack/basic_calc_pack.h"
+```
+
+可包含本扩展包中所有库
+
+使用 `CalcNode` 的构造函数构造
+
+如果你使用 `ComGraph` 构建计算图
+
+可使用其成员函数 `BuildCalcNode<CLASSNAME>(int,vector<string>)` 构建 `CLASSNAME` 类型的节点
