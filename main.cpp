@@ -110,6 +110,7 @@ int main()
         string Command, NodeName;
         cin >> Command;
         double Res = 0;
+        bool failed = false;
         if (Command == "EVAL") {
             int InitPHNum;
             cin >> NodeName >> InitPHNum;
@@ -120,9 +121,14 @@ int main()
                 cin >> PHName >> Val;
                 PHList.push_back(make_pair(PHName, Val));
             }
-            Res = Sample_Graph.Eval(NodeName, PHList);
-
-            AnsOut << Res << endl;
+            try {
+                Res = Sample_Graph.Eval(NodeName, PHList);
+            }
+            catch (string &ErrMsg) {
+                ErrOut << ErrMsg << endl;
+                failed = true;
+            }
+            if (!failed) AnsOut << Res << endl;
         } else if (Command == "SETANSWER") {
             cin >> NodeName;
             int AnsPos;

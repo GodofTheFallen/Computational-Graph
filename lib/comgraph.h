@@ -162,7 +162,9 @@ _T ComGraph<_T>::Eval(string NodeName, vector<pair<string, _T>> PHList)
         Res = Target->GetVal(); //计算
     }
     catch (string &ErrMsg) {
-        ErrOut << ErrMsg << endl;
+        Target->Clear(); //清除中间结果
+        for (int i = 0; i < PHList.size(); ++i) GetNode(PHList[i].first)->Clear();
+        throw ErrMsg;
     }
     Target->Clear(); //清除中间结果
     for (int i = 0; i < PHList.size(); ++i) GetNode(PHList[i].first)->Clear(); //清除对占位符的赋值
