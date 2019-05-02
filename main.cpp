@@ -1,9 +1,11 @@
 #include <iostream>
+#include <sstream>
 #include "lib/comgraph.h"
 #include "basic_calc_pack/basic_calc_pack.h"
 #include "advanced_calc_pack/advanced_calc_pack.h"
 #include "compare_calc_pack/compare_calc_pack.h"
 
+typedef string string;
 using namespace std;
 ostream &ErrOut = cout; //应项目要求，错误信息向cout输出
 ostream &PriOut = cout; //应项目要求，PriNode信息向cout输出
@@ -117,13 +119,17 @@ int main()
         double Res = 0;
         bool failed = false;
         if (Command == "EVAL") {
-            int InitPHNum;
-            cin >> NodeName >> InitPHNum;
+            int InitPHNum = 0;
+            string PHCommand;
+            cin >> NodeName;
+            getline(cin, PHCommand);
+            istringstream PHC(PHCommand);
+            PHC >> InitPHNum;
             vector<pair<string, double>> PHList;
             for (int j = 1; j <= InitPHNum; ++j) {
                 string PHName;
                 double Val;
-                cin >> PHName >> Val;
+                PHC >> PHName >> Val;
                 PHList.push_back(make_pair(PHName, Val));
             }
             try {
