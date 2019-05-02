@@ -11,6 +11,9 @@ ostream &AnsOut = cout; //答案输出至cout
 
 int main()
 {
+    //cout.setf(ios::fixed);
+    //cout.precision(4);
+    //测试用的格式控制
     ComGraph<double> Sample_Graph(ErrOut, PriOut); //重新设定错误信息输出位置
     int n;
     //独立节点的建立-------BEGIN-------
@@ -20,10 +23,10 @@ int main()
         char NodeType;
         double val;
         cin >> NodeName >> NodeType; //cin会默认跳过空字符，所以不用getchar()
-        if (Sample_Graph.FindNode(NodeName)) { //输入节点重名，输出错误信息，强行终止程序
+        /*if (Sample_Graph.FindNode(NodeName)) { //输入节点重名，输出错误信息，强行终止程序
             ErrOut << "ERROR: " << NodeName << " already exist" << endl;
             return i;
-        }
+        }*/
         switch (NodeType) {
             case 'C': //创建ConNode
                 cin >> val;
@@ -48,10 +51,10 @@ int main()
         string NodeName, TempStr;
         vector<string> OperandsList;
         cin >> NodeName >> TempStr; //多读一个等号
-        if (Sample_Graph.FindNode(NodeName)) { //输入节点重名，输出错误信息，强行终止程序
+        /*if (Sample_Graph.FindNode(NodeName)) { //输入节点重名，输出错误信息，强行终止程序
             ErrOut << "ERROR: " << NodeName << " already exist" << endl;
             return i;
-        }
+        }*/
         cin >> TempStr;
         if (TempStr == "SIN" || TempStr == "LOG" || TempStr == "EXP" || TempStr == "TANH" ||
             TempStr == "SIGMOID") { //单目

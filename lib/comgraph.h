@@ -17,6 +17,8 @@ class ComGraph
 private:
     map<string, Node<_T> *> Index;
 
+    vector<Node<_T> *> NodeAddress;
+
     _T SetPHNodeVal(Node<_T> *, _T);
 
     vector<_T> AnsHistory;
@@ -24,6 +26,8 @@ private:
     ostream &ErrOut, &PriOut;
 
     Node<_T> *GetNode(string);    //获取指定关键字节点的节点地址，{不推荐==>不允许}在类外使用
+
+    void AddNode(string, Node<_T> *); //由于可能出现重名节点，因此在Index中覆盖时仍要记录被覆盖节点地址，所以新增一个vector
 
 public:
     ComGraph() : ErrOut(cerr), PriOut(cout)
@@ -122,7 +126,7 @@ template<typename _CN>
 Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, vector<Node<_T> *> OperandLists)
 {
     Node<_T> *temp = new _CN(OperandLists); //直接建立对应的计算节点（派生类）
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 */
@@ -135,7 +139,7 @@ Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, vector<string> OperandNam
     for (int i = 0; i < OperandNameLists.size(); ++i) OperandLists.push_back(GetNode(OperandNameLists[i]));
     //先转换为包含操作元地址的vector
     Node<_T> *temp = new _CN(OperandLists);
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 
@@ -147,7 +151,7 @@ Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, int OperandNum, vector<st
     for (int i = 0; i < OperandNum; ++i) OperandLists.push_back(GetNode(OperandNameLists[i]));
     //先转换为包含操作元地址的vector
     Node<_T> *temp = new _CN(OperandNum, OperandLists);
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 
@@ -175,7 +179,7 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildPHNode(string NodeName)
 {
     Node<_T> *temp = new PHNode<_T>;
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 
@@ -183,7 +187,7 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildConNode(string NodeName, _T ConVal)
 {
     Node<_T> *temp = new ConNode<_T>(ConVal);
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 
@@ -191,7 +195,7 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildVarNode(string NodeName)
 {
     Node<_T> *temp = new VarNode<_T>;
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 
@@ -199,7 +203,7 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildVarNode(string NodeName, _T InitVal)
 {
     Node<_T> *temp = new VarNode<_T>(InitVal);
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 
@@ -213,7 +217,7 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildPriNode(string NodeName, string WatchName, ostream &_OSTR)
 {
     Node<_T> *temp = new PriNode<_T>(WatchName, GetNode(WatchName), _OSTR);
-    Index[NodeName] = temp;
+    AddNode(NodeName, temp);
     return temp;
 }
 
@@ -227,15 +231,23 @@ _T ComGraph<_T>::RecInHistory(_T Ans)
 template<typename _T>
 _T ComGraph<_T>::ReadFromHistory(int Pos)
 {
-    return AnsHistory[Pos-1]; //因为命令编号从1开始，而vector下标从0开始
+    return AnsHistory[Pos - 1]; //因为命令编号从1开始，而vector下标从0开始
 }
 
 template<typename _T>
 void ComGraph<_T>::clear()
 {
-    for (auto i = Index.begin(); i != Index.end(); ++i) delete (i->second);
+    for (int i = 0; i < NodeAddress.size(); ++i) delete NodeAddress[i];
     Index.clear();
+    NodeAddress.clear();
     AnsHistory.clear();
+}
+
+template<typename _T>
+void ComGraph<_T>::AddNode(string NodeName, Node<_T> *Point)
+{
+    Index[NodeName] = Point;
+    NodeAddress.push_back(Point);
 }
 
 #endif //COMPUTATIONAL_GRAPH_COMGRAPH_H
