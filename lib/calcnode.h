@@ -40,7 +40,8 @@ public:
 
     ~CalcNode()
     {
-        delete[] Operands;
+        if (Operands) delete[] Operands;
+        Operands = nullptr;
         //注意，这里不要释放Operands[]所指的东西，谁申请谁释放，这个申请是在构造前完成的，所以不由本类释放
     }
 };

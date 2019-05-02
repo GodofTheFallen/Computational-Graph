@@ -174,11 +174,12 @@
 
 ## 如何自定义计算节点
 
+`COSTOM_NODE_CLASS.h`
 ```c++
 #include "../lib/calcnode.h" //或换成你需要的相对路径
 
 template<typename _T>
-class COSTOM_NODE_NAME : public CalcNode<_T>
+class COSTOM_NODE_CLASS : public CalcNode<_T>
 {
 protected:
     _T Calc(); //重载Calc，在这里进行计算
@@ -192,7 +193,7 @@ public:
 };
 
 template<typename _T>
-_T COSTOM_NODE_NAME<_T>::Calc()
+_T COSTOM_NODE_CLASS<_T>::Calc()
 {
     /*
     在这里定义计算你的答案，对操作元求值必须用Operands[x]->GetVal()

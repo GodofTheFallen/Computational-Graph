@@ -114,7 +114,7 @@ $ ./main
 
 `EVAL NODENAME K OP1 V1 OP2 V2 ... OPK VK`
 
-`NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: Nodename NODENAME not found` ，并强行终止程序
+`NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: NodeName NODENAME not found` ，并强行终止程序
 
 `K` 是一个整数，表示要赋值的占位符数量
 
@@ -130,7 +130,7 @@ $ ./main
 
 `SETANSWER NODENAME K` 
 
-`NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: Nodename NODENAME not found` ，并强行终止程序
+`NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: NodeName NODENAME not found` ，并强行终止程序
 
 `K` 是一个整数，表示将第 $K$ 次命令的答案赋值给 `NODENAME`
 
@@ -142,7 +142,7 @@ $ ./main
 
 `SETCONSTANT NODENAME V` 
 
-`NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: Nodename NODENAME not found` ，并强行终止程序
+`NODENAME` 是一个已建立节点的名称，如果未找到，则输出错误信息 `ERROR: NodeName NODENAME not found` ，并强行终止程序
 
 `V` 是一个实数，表示将 $V$ 赋值给 `NODENAME`
 
@@ -152,7 +152,27 @@ $ ./main
 
 在构建 `NODENAME` 节点时输入格式错误
 
-### `ERROP`
+### `ERROR: NodeName NODENAME not found`
+
+在需要输入已存在节点的名称时，输入的名称不存在
+
+### `ERROR: Placeholder missing`
+
+在计算时有被依赖的占位符未赋值
+
+### `ERROR: Variable missing`
+
+在计算时有被依赖的变量未赋值
+
+（这个错误不可能出现，因为定义变量时必赋初值；且未提供清除变量的接口）
+
+### `ERROR: Division by zero`
+
+除法运算时除数为 0
+
+### `ERROR: LOG operator's input must be positive`
+
+对数运算时真数不为正数
 
 ## 如果你想用我的库
 

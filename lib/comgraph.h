@@ -237,7 +237,10 @@ _T ComGraph<_T>::ReadFromHistory(int Pos)
 template<typename _T>
 void ComGraph<_T>::clear()
 {
-    for (int i = 0; i < NodeAddress.size(); ++i) delete NodeAddress[i];
+    for (int i = 0; i < NodeAddress.size(); ++i) {
+        if (NodeAddress[i]) delete NodeAddress[i];
+        NodeAddress[i] = nullptr;
+    }
     Index.clear();
     NodeAddress.clear();
     AnsHistory.clear();
