@@ -46,6 +46,8 @@ public:
 
     _T SetVarVal(string, _T);    //为变量节点赋值
 
+    void ClearVarVal(string);    //清除（暂时禁用）变量
+
     //template<typename _CN>
     //Node<_T> *BuildCalcNode(string, std::vector<Node<_T> *>); //不推荐，vector包含节点所有依赖节点地址
 
@@ -118,6 +120,13 @@ _T ComGraph<_T>::SetVarVal(string NodeName, _T Val)
     Node<_T> *NodetoSet = GetNode(NodeName); //获取
     dynamic_cast<VarNode<_T> *>(NodetoSet)->SetVal(Val);
     return NodetoSet->GetVal(); //返回值本身没什么作用，但是能返回代表成功了
+}
+
+template<typename _T>
+void ComGraph<_T>::ClearVarVal(string NodeName)
+{
+    Node<_T> *temp = GetNode(NodeName);
+    dynamic_cast<VarNode<_T> *>(temp)->ForcedClear();
 }
 
 /*
