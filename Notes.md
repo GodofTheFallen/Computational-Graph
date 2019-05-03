@@ -41,6 +41,8 @@
 
 对于一些常见错误，也提供了一定的预警和纠错机制
 
+这篇注记比较长，推荐导出成 pdf 结合自动生成的目录查阅哦！
+
 ## 库与类功能介绍
 
 ### Node
@@ -176,6 +178,142 @@
 ##### `CalcNode(const vector<Node<_T> *> &)`
 
 仅给出操作元指针列表来初始化一个CalcNode（的派生类），请确保指针列表仅仅只含有操作元的指针
+
+<br/>
+
+###PriNode : Node
+
+`PriNode`继承自`Node`，是输出节点
+
+####保护成员列表：
+
+#####`std::string WatchName`
+
+需要被输出的节点名称
+
+#####`Node<_T> *WatchNode`
+
+需要被输出的节点
+
+#####`_T Print()`
+
+输出结果
+
+####公开成员列表：
+
+#####`_T GetVal()`
+
+重载基类的求值函数，返回结点的值的同时输出该节点的结果
+
+#####`void Clear()`
+
+重载基类的清除函数，可清除被观察的节点和当前的输出节点
+
+####构造函数
+
+#####`PriNode(std::string _NtoWName, Node<_T> *_NtoW, std::ostream &_OSTR)`
+
+用被输出的节点初始化`WatchName`、`WatchNode`成员
+
+<br/>
+
+### `ComGraph`
+
+####私有成员列表：
+
+#####`map<string, Node<_T> *> Index`
+
+用于储存计算图中的节点数据
+
+#####`_T SetPHNodeVal(Node<_T> *, _T)`
+
+为占位节点赋值
+
+#####`vector<_T> AnsHistory`
+
+储存操作的计算结果
+
+#####`ostream &ErrOut, &PriOut`
+
+错误信息和默认`PriNode`输出流
+
+#####`Node<_T> *GetNode(string)`
+
+获取指定关键字节点的节点地址，{不推荐==>不允许}在类外使用
+
+若没找到则会直接杀死程序
+
+####公开成员列表：
+
+#####`bool FindNode(string)`
+
+检查图中是否有节点以指定关键字命名
+
+#####`_T SetVarVal(string, _T)`
+
+为变量节点赋值
+
+#####`_T Eval(string, vector<pair<string, _T>>)`
+
+计算答案，`vector`内用`pair`存储参数
+
+#####`_T RecInHistory(_T)`
+
+记录某一次操作的答案
+
+#####`_T ReadFromHistory(int)`
+
+读取某一次操作的答案
+
+#####`void clear()`
+
+清除计算图中的数据
+
+####计算节点的构造
+
+#####`Node<_T> *BuildCalcNode(string, std::vector<string>)`
+
+推荐，`vector`包含节点所有依赖节点名称
+
+#####`Node<_T> *BuildCalcNode(string, int, std::vector<string>)`  
+
+更推荐，指定操作元个数，`vector`包含节点所有依赖节点名称
+
+####其他节点的构造
+
+#####`Node<_T> *BuildPHNode(string)`
+
+构造占位节点
+
+#####`Node<_T> *BuildConNode(string, _T)`
+
+构造常节点
+
+#####`Node<_T> *BuildVarNode(string)`
+
+构造变量节点
+
+#####`Node<_T> *BuildVarNode(string, _T)`
+
+构造变量节点并初始化
+
+#####`Node<_T> *BuildPriNode(string, string)`
+
+用已有节点构造输出节点
+
+#####`Node<_T> *BuildPriNode(string, string, ostream &)`
+
+同上
+
+####构造函数
+
+#####`ComGraph() : ErrOut(cerr), PriOut(cout)`
+
+构造时载入错误信息和默认`PriNode`输出流，默认分别为`cerr`和`cout`
+
+#####` ComGraph(ostream &_ErrO, ostream &_PrO) : ErrOut(_ErrO), PriOut(_PrO)`
+
+构造时载入错误信息和默认`PriNode`输出流，如果要自定义，就必须两个一起自定义
 
 <br/>
 
