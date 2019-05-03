@@ -19,13 +19,13 @@ private:
 
     vector<Node<_T> *> NodeAddress;
 
-    _T SetPHNodeVal(Node<_T> *, _T);
-
     vector<_T> AnsHistory;
 
     ostream &ErrOut, &PriOut;
 
     Node<_T> *GetNode(string);    //获取指定关键字节点的节点地址，{不推荐==>不允许}在类外使用
+
+    _T SetPHNodeVal(Node<_T> *, _T);
 
     void AddNode(string, Node<_T> *); //由于可能出现重名节点，因此在Index中覆盖时仍要记录被覆盖节点地址，所以新增一个vector
 
@@ -42,11 +42,11 @@ public:
         Index.clear();
     }
 
-    bool FindNode(string);
+    bool FindNode(string); //检查图中是否有节点以指定名称命名
 
-    _T SetVarVal(string, _T);    //为变量节点赋值
+    _T SetVarVal(string, _T); //为变量节点赋值
 
-    void ClearVarVal(string);    //清除（暂时禁用）变量
+    void ClearVarVal(string); //清除（暂时禁用）变量
 
     //template<typename _CN>
     //Node<_T> *BuildCalcNode(string, std::vector<Node<_T> *>); //不推荐，vector包含节点所有依赖节点地址
@@ -92,13 +92,13 @@ public:
 //一个安全性考虑，在类外除了节点建立时，不允许通过任何方式获取建立的节点的地址，防止其被提前删除
 
 template<typename _T>
-bool ComGraph<_T>::FindNode(string NodeName)
+inline bool ComGraph<_T>::FindNode(string NodeName)
 {
     return Index.count(NodeName);
 }
 
 template<typename _T>
-Node<_T> *ComGraph<_T>::GetNode(string NodeName)
+inline Node<_T> *ComGraph<_T>::GetNode(string NodeName)
 {
     if (!Index.count(NodeName)) {
         ErrOut << "NodeName " << NodeName << " not found" << endl;
@@ -231,20 +231,20 @@ Node<_T> *ComGraph<_T>::BuildPriNode(string NodeName, string WatchName, ostream 
 }
 
 template<typename _T>
-_T ComGraph<_T>::RecInHistory(_T Ans)
+inline _T ComGraph<_T>::RecInHistory(_T Ans)
 {
     AnsHistory.push_back(Ans);
     return Ans;
 }
 
 template<typename _T>
-_T ComGraph<_T>::ReadFromHistory(int Pos)
+inline _T ComGraph<_T>::ReadFromHistory(int Pos)
 {
     return AnsHistory[Pos - 1]; //因为命令编号从1开始，而vector下标从0开始
 }
 
 template<typename _T>
-void ComGraph<_T>::clear()
+inline void ComGraph<_T>::clear()
 {
     for (int i = 0; i < NodeAddress.size(); ++i) {
         if (NodeAddress[i]) delete NodeAddress[i];

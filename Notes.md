@@ -41,8 +41,6 @@
 
 对于一些常见错误，也提供了一定的预警和纠错机制
 
-这篇注记比较长，推荐导出成 pdf 结合自动生成的目录查阅哦！
-
 ## 库与类功能介绍
 
 ### Node
@@ -181,137 +179,153 @@
 
 <br/>
 
-###PriNode : Node
+### PriNode : Node
 
-`PriNode`继承自`Node`，是输出节点
+`PriNode` 继承自 `Node` ，是输出节点
 
-####保护成员列表：
+#### 保护成员列表
 
-#####`std::string WatchName`
+##### `std::string WatchName`
 
 需要被输出的节点名称
 
-#####`Node<_T> *WatchNode`
+##### `Node<_T> *WatchNode`
 
-需要被输出的节点
+需要被输出的节点地址
 
-#####`_T Print()`
+##### `_T Print()`
 
-输出结果
+在首次对该节点求值时调用，求出被观察节点的答案，输出，并将之作为本节点的答案
 
-####公开成员列表：
+#### 公开成员列表
 
-#####`_T GetVal()`
+##### `_T GetVal()`
 
-重载基类的求值函数，返回结点的值的同时输出该节点的结果
+重载基类的求值函数，返回结点的值，初次访问时会调用 `Print()`
 
-#####`void Clear()`
+##### `void Clear()`
 
-重载基类的清除函数，可清除被观察的节点和当前的输出节点
-
-####构造函数
-
-#####`PriNode(std::string _NtoWName, Node<_T> *_NtoW, std::ostream &_OSTR)`
-
-用被输出的节点初始化`WatchName`、`WatchNode`成员
+重载基类的清除函数，清除被观察节点和当前节点的临时答案
 
 <br/>
 
 ### `ComGraph`
 
-####私有成员列表：
+#### 私有成员列表
 
-#####`map<string, Node<_T> *> Index`
+##### `map<string, Node<_T> *> Index`
 
-用于储存计算图中的节点数据
+从节点名称到地址的索引，用于在类外调用时根据类外传入的 `string` 型节点名称快速找到对应节点地址
 
-#####`_T SetPHNodeVal(Node<_T> *, _T)`
+##### `vector<Node<_T> *> NodeAddress;`
 
-为占位节点赋值
+记录所有建立过的节点地址，用于在析构或清除时找到所有由该类申请过的空间
 
-#####`vector<_T> AnsHistory`
+##### `vector<_T> AnsHistory`
 
-储存操作的计算结果
+储存命令的结果，有配套的接口对其进行处理，后续开发如果用不到可以删去
 
-#####`ostream &ErrOut, &PriOut`
+##### `ostream &ErrOut, &PriOut`
 
-错误信息和默认`PriNode`输出流
+错误信息和默认 `PriNode` 输出流，在构造时需要自定义
 
-#####`Node<_T> *GetNode(string)`
+##### `Node<_T> *GetNode(string)`
 
-获取指定关键字节点的节点地址，{不推荐==>不允许}在类外使用
+获取指定名称对应的节点地址，若没找到则会输出错误信息并抛出异常
 
-若没找到则会直接杀死程序
+##### `_T SetPHNodeVal(Node<_T> *, _T)`
 
-####公开成员列表：
+为占位节点赋值，仅在 `Eval` 时被调用，不可从外部调用
 
-#####`bool FindNode(string)`
+#### 公开成员列表
 
-检查图中是否有节点以指定关键字命名
+##### `bool FindNode(string)`
 
-#####`_T SetVarVal(string, _T)`
+检查图中是否有节点以指定名称命名
 
-为变量节点赋值
+##### `_T SetVarVal(string, _T)`
 
-#####`_T Eval(string, vector<pair<string, _T>>)`
+为变量节点赋值，参数为变量节点的名称和需要赋的 `_T` 型值
 
-计算答案，`vector`内用`pair`存储参数
+##### `void ClearVarVal(string)`
+ 
+清除（暂时禁用）指定名称的变量节点，测试程序中用不到，但提供了此接口
 
-#####`_T RecInHistory(_T)`
+##### `_T Eval(string, vector<pair<string, _T>>)`
+
+计算给定名称节点答案， `vector` 内用 `pair` 存储参数， `pair` 的首元素为占位节点名称，次元素为需要赋的值
+
+调用时会先对占位符进行赋值，之后对目标节点进行求值，最后清除临时答案，清除赋值，返回结果
+
+如果计算过程中出现取值错误，会立即终止计算，输出错误信息，但也会清除临时答案
+
+##### `_T RecInHistory(_T)`
 
 记录某一次操作的答案
 
-#####`_T ReadFromHistory(int)`
+##### `_T ReadFromHistory(int)`
 
 读取某一次操作的答案
 
-#####`void clear()`
+##### `void clear()`
 
-清除计算图中的数据
+清除计算图中所有的数据，析构时也会调用
 
-####计算节点的构造
+#### 计算节点的构造
 
-#####`Node<_T> *BuildCalcNode(string, std::vector<string>)`
+计算节点使用模板函数，在调用时需要给定计算节点的具体派生类，如：
 
-推荐，`vector`包含节点所有依赖节点名称
+```
+GRAPHNAME.BuildCalcNode<CALCNODECLASS<TYPENAME>>(...);
+```
 
-#####`Node<_T> *BuildCalcNode(string, int, std::vector<string>)`  
+可以在计算图 `GRAPHNAME` 中建立 `CALCNODECLASS<TYPENAME>` 类型的计算节点 
 
-更推荐，指定操作元个数，`vector`包含节点所有依赖节点名称
+建立完成后会返回建立的节点的地址，
 
-####其他节点的构造
+参数表有两种形式
 
-#####`Node<_T> *BuildPHNode(string)`
+##### `(string, std::vector<string>)`
 
-构造占位节点
+给出待建立节点名称，给出依赖节点的名称列表
 
-#####`Node<_T> *BuildConNode(string, _T)`
+##### `(string, int, std::vector<string>)`  
 
-构造常节点
+推荐，额外给出了依赖节点的个数，可以排除 `vector` 后可能存在的冗余信息的干扰 
 
-#####`Node<_T> *BuildVarNode(string)`
+#### 其它节点的构造
 
-构造变量节点
+##### `Node<_T> *BuildPHNode(string)`
 
-#####`Node<_T> *BuildVarNode(string, _T)`
+构造给定名称的占位节点
 
-构造变量节点并初始化
+##### `Node<_T> *BuildConNode(string, _T)`
 
-#####`Node<_T> *BuildPriNode(string, string)`
+构造给定名称的常节点，同时给定初值（常值）
 
-用已有节点构造输出节点
+##### `Node<_T> *BuildVarNode(string)`
 
-#####`Node<_T> *BuildPriNode(string, string, ostream &)`
+构造给定名称的变量节点，不赋初值
 
-同上
+##### `Node<_T> *BuildVarNode(string, _T)`
 
-####构造函数
+构造给定名称的变量节点，并初始化
 
-#####`ComGraph() : ErrOut(cerr), PriOut(cout)`
+##### `Node<_T> *BuildPriNode(string, string)`
+
+构造给定名称输出节点，给出被观察节点的名称，输出节点的输出流被设定为默认值 `PriOut`
+
+##### `Node<_T> *BuildPriNode(string, string, ostream &)`
+
+构造给定名称输出节点，给出被观察节点的名称，自定义输出节点的输出流
+
+#### 构造函数
+
+##### `ComGraph() : ErrOut(cerr), PriOut(cout)`
 
 构造时载入错误信息和默认`PriNode`输出流，默认分别为`cerr`和`cout`
 
-#####` ComGraph(ostream &_ErrO, ostream &_PrO) : ErrOut(_ErrO), PriOut(_PrO)`
+##### `ComGraph(ostream &_ErrO, ostream &_PrO) : ErrOut(_ErrO), PriOut(_PrO)`
 
 构造时载入错误信息和默认`PriNode`输出流，如果要自定义，就必须两个一起自定义
 
