@@ -37,7 +37,7 @@ double DivCNode<double>::CalcGrad(std::string AtVName)
 {
     double Res0 = Operands[0]->GetVal(), Res1 = Operands[1]->GetVal();
     if (Res1 == 0) throw ErrMsg; //被0除
-    return (Operands[0]->GetGrad(AtVName)/Res1-Operands[1]->GetGrad(AtVName)*Res0/Res1/Res1);
+    return (Operands[0]->GetGrad(AtVName) / Res1 - Operands[1]->GetGrad(AtVName) * Res0 / Res1 / Res1);
 }
 
 #endif //COMPUTATIONAL_GRAPH_DIVCNODE_H

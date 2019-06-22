@@ -37,7 +37,7 @@ double LogCNode<double>::CalcGrad(std::string AtVName)
 {
     double Res0 = Operands[0]->GetVal();
     if (Res0 <= 0) throw ErrMsg; //对非正数取对数
-    return Operands[0]->GetGrad(AtVName)/Res0;
+    return Operands[0]->GetGrad(AtVName) / Res0;
 }
 
 #endif //COMPUTATIONAL_GRAPH_LOGCNODE_H
