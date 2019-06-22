@@ -38,7 +38,7 @@ void ConNode<_T>::Clear() {} //清除时什么都不做
 template<typename _T>
 _T ConNode<_T>::GetGrad(std::string AtVName)
 {
-    if (AtVName == GetNodeName()) Node<_T>::GetGrad(AtVName); //以该节点为自变量求导是不允许的
+    if (AtVName == GetNodeName()) return 1; //以该节点为自变量求导为1
     else return 0; //如果不以该节点为自变量求导，则对常数求导必为0
 }
 

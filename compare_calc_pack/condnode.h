@@ -14,6 +14,7 @@ public:
     using CalcNode<_T>::Operands;
     using CalcNode<_T>::CalcNode;
     using Node<_T>::GetGrad; //不允许求导
+    GRAD_DISABLE
 };
 
 template<>

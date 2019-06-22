@@ -100,7 +100,7 @@ void BuildIndNode(ComGraph<double> &_CG, string NodeType, string NodeName)
     }
 }
 
-int CalcNodeOperands(ComGraph<double> _CG, string NodeType)
+int CalcNodeOperands(ComGraph<double> &_CG, string NodeType)
 {
     if (NodeType == "SIN" || NodeType == "LOG" || NodeType == "EXP" || NodeType == "TANH" ||
         NodeType == "SIGMOID")
@@ -133,7 +133,9 @@ void BuildDepNode(ComGraph<double> &_CG, string NodeType, string NodeName)
             cin >> OPRT >> OP2;
             OperandsList.push_back(OP1);
             OperandsList.push_back(OP2);
-            if (OPRT == "+")
+            if (OPRT == "AT")
+                _CG.BuildGradAtNode(NodeName, OP1, OP2);
+            else if (OPRT == "+")
                 _CG.BuildCalcNode<PluCNode<double>>(NodeName, 2, OperandsList);
             else if (OPRT == "-")
                 _CG.BuildCalcNode<MinCNode<double>>(NodeName, 2, OperandsList);
@@ -160,6 +162,10 @@ void BuildDepNode(ComGraph<double> &_CG, string NodeType, string NodeName)
             }
             _CG.BuildCalcNode<CondNode<double>>(NodeName, 3, OperandsList);
         }
+    } else if (NodeType == "GRAD") {
+        string OP;
+        cin >> OP;
+        _CG.BuildGradNode(NodeName, OP);
     } else if (NodeType == "PRINT") { //调试输出
         string OP;
         cin >> OP;

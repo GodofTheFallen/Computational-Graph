@@ -11,6 +11,8 @@
 #include "bindnode.h"
 #include "assignnode.h"
 #include "assertnode.h"
+#include "gradnode.h"
+#include "gradatnode.h"
 
 using namespace std;
 
@@ -86,6 +88,10 @@ public:
     Node<_T> *BuildAssignNode(string, string, string);
 
     Node<_T> *BuildAssertNode(string, string);
+
+    Node<_T> *BuildGradNode(string, string);
+
+    Node<_T> *BuildGradAtNode(string, string, string);
 
     _T RecInHistory(_T);//记录某一次操作的答案
 
@@ -236,6 +242,22 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildAssertNode(string NodeName, string AssertionName)
 {
     Node<_T> *temp = new AssertNode<_T>(NodeName, GetNode(AssertionName));
+    AddNode(NodeName, temp);
+    return temp;
+}
+
+template<typename _T>
+Node<_T> *ComGraph<_T>::BuildGradNode(string NodeName, string GradTarName)
+{
+    Node<_T> *temp = new GradNode<_T>(NodeName, GetNode(GradTarName));
+    AddNode(NodeName, temp);
+    return temp;
+}
+
+template<typename _T>
+Node<_T> *ComGraph<_T>::BuildGradAtNode(string NodeName, string GradTarName, string AtName)
+{
+    Node<_T> *temp = new GradAtNode<_T>(NodeName, GetNode(GradTarName), AtName);
     AddNode(NodeName, temp);
     return temp;
 }

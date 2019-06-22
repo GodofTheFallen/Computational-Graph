@@ -6,6 +6,8 @@
 #include <map>
 #include "node.h"
 
+#define GRAD_DISABLE _T CalcGrad(std::string AtVName) { Node<_T>::GetGrad(AtVName); };
+
 template<typename _T>
 class CalcNode : public Node<_T>
 {
@@ -16,7 +18,7 @@ protected:
     std::map<std::string, _T> GradAt;
 
     virtual _T Calc() = 0;    //Calc函数用于计算该节点的答案，不允许从外部调用，只可以从GetVal()调用（因为所有的节点都有GetVal()，而Calc()不是）
-    virtual _T CalcGrad(std::string);
+    virtual _T CalcGrad(std::string) = 0;
 
 public:
     using Node<_T>::GetNodeName;
@@ -77,12 +79,6 @@ _T CalcNode<_T>::GetGrad(std::string AtVName)
     if (GradAt.count(AtVName)) return GradAt[AtVName];
     GradAt[AtVName] = CalcGrad(AtVName);
     return GradAt[AtVName];
-}
-
-template<typename _T>
-_T CalcNode<_T>::CalcGrad(std::string AtVName)
-{
-    Node<_T>::GetGrad(AtVName); //未定义的求导
 }
 
 #endif //COMPUTATIONAL_GRAPH_CALCNODE_H
