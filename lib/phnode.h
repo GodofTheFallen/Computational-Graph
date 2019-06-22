@@ -10,6 +10,7 @@ class PHNode : public Node<_T>
 private:
     static const std::string ErrMsg; //需要输出的错误信息，设定为静态
 public:
+    using Node<_T>::Node;
     using Node<_T>::Result;
 
     _T GetVal();

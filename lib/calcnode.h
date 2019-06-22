@@ -20,14 +20,16 @@ public:
 
     using Node<_T>::Result;
 
-    CalcNode(int _OpeNum, const std::vector<Node<_T> *> &OperandsList) : OperandNum(_OpeNum) //推荐的构造函数
+    CalcNode(std::string NodeName, int _OpeNum, const std::vector<Node<_T> *> &OperandsList)
+            : Node<_T>(NodeName), OperandNum(_OpeNum) //推荐的构造函数
     {
         Operands = new Node<_T> *[OperandNum];
         for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];
     }
     //给出操作元个数，给出操作元列表来初始化一个CalcNode（的派生类），可以有效避免vector后面一不小心加入了多余的东西
 
-    explicit CalcNode(const std::vector<Node<_T> *> &OperandsList) : OperandNum(OperandsList.size())
+    CalcNode(std::string NodeName, const std::vector<Node<_T> *> &OperandsList)
+            : Node<_T>(NodeName), OperandNum(OperandsList.size())
     {
         Operands = new Node<_T> *[OperandNum];
         for (int i = 0; i < OperandNum; ++i) Operands[i] = OperandsList[i];

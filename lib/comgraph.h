@@ -8,6 +8,7 @@
 #include "prinode.h"
 #include "varnode.h"
 #include "calcnode.h"
+#include "bindnode.h"
 
 using namespace std;
 
@@ -78,6 +79,8 @@ public:
 
     Node<_T> *BuildPriNode(string, string, ostream &);
 
+    Node<_T> *BuildBindNode(string, string, string);
+
     _T RecInHistory(_T);//记录某一次操作的答案
 
     _T ReadFromHistory(int);//读取某一次操作的答案
@@ -134,7 +137,7 @@ template<typename _T>
 template<typename _CN>
 Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, vector<Node<_T> *> OperandLists)
 {
-    Node<_T> *temp = new _CN(OperandLists); //直接建立对应的计算节点（派生类）
+    Node<_T> *temp = new _CN(NodeName, OperandLists); //直接建立对应的计算节点（派生类）
     AddNode(NodeName, temp);
     return temp;
 }
@@ -147,7 +150,7 @@ Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, vector<string> OperandNam
     vector<Node<_T> *> OperandLists;
     for (int i = 0; i < OperandNameLists.size(); ++i) OperandLists.push_back(GetNode(OperandNameLists[i]));
     //先转换为包含操作元地址的vector
-    Node<_T> *temp = new _CN(OperandLists);
+    Node<_T> *temp = new _CN(NodeName, OperandLists);
     AddNode(NodeName, temp);
     return temp;
 }
@@ -159,7 +162,7 @@ Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, int OperandNum, vector<st
     vector<Node<_T> *> OperandLists;
     for (int i = 0; i < OperandNum; ++i) OperandLists.push_back(GetNode(OperandNameLists[i]));
     //先转换为包含操作元地址的vector
-    Node<_T> *temp = new _CN(OperandNum, OperandLists);
+    Node<_T> *temp = new _CN(NodeName, OperandNum, OperandLists);
     AddNode(NodeName, temp);
     return temp;
 }
@@ -187,7 +190,7 @@ _T ComGraph<_T>::Eval(string NodeName, vector<pair<string, _T>> PHList)
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildPHNode(string NodeName)
 {
-    Node<_T> *temp = new PHNode<_T>;
+    Node<_T> *temp = new PHNode<_T>(NodeName);
     AddNode(NodeName, temp);
     return temp;
 }
@@ -195,7 +198,7 @@ Node<_T> *ComGraph<_T>::BuildPHNode(string NodeName)
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildConNode(string NodeName, _T ConVal)
 {
-    Node<_T> *temp = new ConNode<_T>(ConVal);
+    Node<_T> *temp = new ConNode<_T>(NodeName, ConVal);
     AddNode(NodeName, temp);
     return temp;
 }
@@ -203,7 +206,7 @@ Node<_T> *ComGraph<_T>::BuildConNode(string NodeName, _T ConVal)
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildVarNode(string NodeName)
 {
-    Node<_T> *temp = new VarNode<_T>;
+    Node<_T> *temp = new VarNode<_T>(NodeName);
     AddNode(NodeName, temp);
     return temp;
 }
@@ -211,7 +214,7 @@ Node<_T> *ComGraph<_T>::BuildVarNode(string NodeName)
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildVarNode(string NodeName, _T InitVal)
 {
-    Node<_T> *temp = new VarNode<_T>(InitVal);
+    Node<_T> *temp = new VarNode<_T>(NodeName, InitVal);
     AddNode(NodeName, temp);
     return temp;
 }
@@ -225,7 +228,15 @@ Node<_T> *ComGraph<_T>::BuildPriNode(string NodeName, string WatchName)
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildPriNode(string NodeName, string WatchName, ostream &_OSTR)
 {
-    Node<_T> *temp = new PriNode<_T>(WatchName, GetNode(WatchName), _OSTR);
+    Node<_T> *temp = new PriNode<_T>(NodeName, GetNode(WatchName), _OSTR);
+    AddNode(NodeName, temp);
+    return temp;
+}
+
+template<typename _T>
+Node<_T> *ComGraph<_T>::BuildBindNode(string NodeName, string MainName, string ExtraName)
+{
+    Node<_T> *temp = new BindNode<_T>(NodeName, MainName, ExtraName);
     AddNode(NodeName, temp);
     return temp;
 }
