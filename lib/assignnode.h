@@ -18,7 +18,7 @@ public:
     using Node<_T>::Result;
 
     AssignNode(std::string NodeName, Node<_T> *_Tar, Node<_T> *_Src)
-            : Node<_T>(NodeName), Target(_Tar), Source(_Src) {}
+            : Node<_T>(NodeName), Target(dynamic_cast<VarNode<_T> *>(_Tar)), Source(_Src) {}
 
     _T GetVal();
 

@@ -219,7 +219,7 @@ Node<_T> *ComGraph<_T>::BuildPriNode(string NodeName, string WatchName, ostream 
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildBindNode(string NodeName, string MainName, string ExtraName)
 {
-    Node<_T> *temp = new BindNode<_T>(NodeName, MainName, ExtraName);
+    Node<_T> *temp = new BindNode<_T>(NodeName, GetNode(MainName), GetNode(ExtraName));
     AddNode(NodeName, temp);
     return temp;
 }
@@ -227,7 +227,7 @@ Node<_T> *ComGraph<_T>::BuildBindNode(string NodeName, string MainName, string E
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildAssignNode(string NodeName, string TargetName, string SourceName)
 {
-    Node<_T> *temp = new AssignNode<_T>(NodeName, TargetName, SourceName);
+    Node<_T> *temp = new AssignNode<_T>(NodeName, GetNode(TargetName), GetNode(SourceName));
     AddNode(NodeName, temp);
     return temp;
 }
@@ -235,7 +235,7 @@ Node<_T> *ComGraph<_T>::BuildAssignNode(string NodeName, string TargetName, stri
 template<typename _T>
 Node<_T> *ComGraph<_T>::BuildAssertNode(string NodeName, string AssertionName)
 {
-    Node<_T> *temp = new AssertNode<_T>(NodeName, AssertionName);
+    Node<_T> *temp = new AssertNode<_T>(NodeName, GetNode(AssertionName));
     AddNode(NodeName, temp);
     return temp;
 }

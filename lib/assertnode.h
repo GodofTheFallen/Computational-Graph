@@ -4,7 +4,7 @@
 #include "node.h"
 
 template<typename _T>
-class AssertNode : Node<_T>
+class AssertNode : public Node<_T>
 {
 private:
     Node<_T> *PosAssertion;
