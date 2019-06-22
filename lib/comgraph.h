@@ -268,6 +268,7 @@ inline void ComGraph<_T>::clear()
 template<typename _T>
 void ComGraph<_T>::AddNode(string NodeName, Node<_T> *Point)
 {
+    if (Index.count(NodeName)) Index[NodeName]->OverRD();
     Index[NodeName] = Point;
     NodeAddress.push_back(Point);
 }
