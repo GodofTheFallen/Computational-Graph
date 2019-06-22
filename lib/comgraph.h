@@ -9,6 +9,7 @@
 #include "varnode.h"
 #include "calcnode.h"
 #include "bindnode.h"
+#include "assignnode.h"
 
 using namespace std;
 
@@ -81,6 +82,8 @@ public:
 
     Node<_T> *BuildBindNode(string, string, string);
 
+    Node<_T> *BuildAssignNode(string, string, string);
+
     _T RecInHistory(_T);//记录某一次操作的答案
 
     _T ReadFromHistory(int);//读取某一次操作的答案
@@ -130,29 +133,6 @@ void ComGraph<_T>::ClearVarVal(string NodeName)
 {
     Node<_T> *temp = GetNode(NodeName);
     dynamic_cast<VarNode<_T> *>(temp)->ForcedClear();
-}
-
-/*
-template<typename _T>
-template<typename _CN>
-Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, vector<Node<_T> *> OperandLists)
-{
-    Node<_T> *temp = new _CN(NodeName, OperandLists); //直接建立对应的计算节点（派生类）
-    AddNode(NodeName, temp);
-    return temp;
-}
-*/
-
-template<typename _T>
-template<typename _CN>
-Node<_T> *ComGraph<_T>::BuildCalcNode(string NodeName, vector<string> OperandNameLists)
-{
-    vector<Node<_T> *> OperandLists;
-    for (int i = 0; i < OperandNameLists.size(); ++i) OperandLists.push_back(GetNode(OperandNameLists[i]));
-    //先转换为包含操作元地址的vector
-    Node<_T> *temp = new _CN(NodeName, OperandLists);
-    AddNode(NodeName, temp);
-    return temp;
 }
 
 template<typename _T>
@@ -237,6 +217,14 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildBindNode(string NodeName, string MainName, string ExtraName)
 {
     Node<_T> *temp = new BindNode<_T>(NodeName, MainName, ExtraName);
+    AddNode(NodeName, temp);
+    return temp;
+}
+
+template<typename _T>
+Node<_T> *ComGraph<_T>::BuildAssignNode(string NodeName, string TargetName, string SourceName)
+{
+    Node<_T> *temp = new AssignNode<_T>(NodeName, TargetName, SourceName);
     AddNode(NodeName, temp);
     return temp;
 }

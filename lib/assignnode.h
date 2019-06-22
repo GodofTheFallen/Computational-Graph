@@ -1,43 +1,43 @@
 #ifndef COMPUTATIONAL_GRAPH_ASSIGNNODE_H
 #define COMPUTATIONAL_GRAPH_ASSIGNNODE_H
 
-#include<iostream>
-#include"node.h"
+#include <iostream>
+#include "node.h"
+#include "varnode.h"
 
 template<typename _T>
-class BinNode : public Node<_T>
+class AssignNode : public Node<_T>
 {
 protected:
-	Node<_T>* Var1;
-	Node<_T>* Var2;
+    VarNode<_T> *Target;
+    Node<_T> *Source;
 
-	std::string Var1Name() const { return Var1->GetNodeName(); }; //变量节点1名称
-	std::string Var2Name() const { return Var2->GetNodeName(); }; //变量节点2名称
+    std::string TarName() const { return Target->GetNodeName(); }; //被赋值名称
+    std::string SrcName() const { return Source->GetNodeName(); }; //值来源名称
 public:
-	using Node<_T>::Result;
+    using Node<_T>::Result;
 
-	AssignNode(std::string Nodename, Node<_T>* _V1, Node<_T>* _V2) : Node<_T>(NodeName), Var1(_V1), Var2(_V2) {};
+    AssignNode(std::string NodeName, Node<_T> *_Tar, Node<_T> *_Src)
+            : Node<_T>(NodeName), Target(_Tar), Source(_Src) {}
 
-	_T GetVal();
+    _T GetVal();
 
-	void Clear();
+    void Clear();
 };
 
+template<typename _T>
 _T AssignNode<_T>::GetVal()
 {
-	if (!Result)
-	{
-		Result = new _T(Var2->GetVal());
-		Var1->Result = Var2->Getval();
-	}
-	return *Result;
+    if (!Result) Result = new _T(Source->GetVal());
+    return *Result;
 }
 
+template<typename _T>
 void AssignNode<_T>::Clear()
 {
-	Var1->Clear();
-	Var2->Clear();
-	Node<_T>::Clear();
+    if (Result) Target->SetVal(*Result);
+    Source->Clear();
+    Node<_T>::Clear();
 }
 
 #endif //COMPUTATIONAL_GRAPH_ASSIGNNODE_H

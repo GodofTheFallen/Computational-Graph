@@ -1,8 +1,8 @@
 #ifndef COMPUTATIONAL_GRAPH_BINDNODE_H
 #define COMPUTATIONAL_GRAPH_BINDNODE_H
 
-#include<iostream>
-#include"node.h"
+#include <iostream>
+#include "node.h"
 
 template<typename _T>
 class BindNode : public Node<_T>
