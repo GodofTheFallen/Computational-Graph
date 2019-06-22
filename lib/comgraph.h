@@ -10,6 +10,7 @@
 #include "calcnode.h"
 #include "bindnode.h"
 #include "assignnode.h"
+#include "assertnode.h"
 
 using namespace std;
 
@@ -83,6 +84,8 @@ public:
     Node<_T> *BuildBindNode(string, string, string);
 
     Node<_T> *BuildAssignNode(string, string, string);
+
+    Node<_T> *BuildAssertNode(string, string);
 
     _T RecInHistory(_T);//记录某一次操作的答案
 
@@ -225,6 +228,14 @@ template<typename _T>
 Node<_T> *ComGraph<_T>::BuildAssignNode(string NodeName, string TargetName, string SourceName)
 {
     Node<_T> *temp = new AssignNode<_T>(NodeName, TargetName, SourceName);
+    AddNode(NodeName, temp);
+    return temp;
+}
+
+template<typename _T>
+Node<_T> *ComGraph<_T>::BuildAssertNode(string NodeName, string AssertionName)
+{
+    Node<_T> *temp = new AssertNode<_T>(NodeName, AssertionName);
     AddNode(NodeName, temp);
     return temp;
 }
