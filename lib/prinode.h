@@ -15,12 +15,15 @@ protected:
     _T Print();
 
 public:
+    using Node<_T>::GetNodeName;
     using Node<_T>::Result;
 
     explicit PriNode(std::string NodeName, Node<_T> *_NtoW, std::ostream &_OSTR)
             : Node<_T>(NodeName), WatchNode(_NtoW), OUTPUT(_OSTR) {};
 
     _T GetVal();
+
+    _T GetGrad(std::string);
 
     void Clear();
 };
@@ -47,5 +50,12 @@ void PriNode<_T>::Clear()
     Node<_T>::Clear();
 }
 
+template<typename _T>
+_T PriNode<_T>::GetGrad(std::string AtVName)
+{
+    if (AtVName == GetNodeName()) Node<_T>::GetGrad(AtVName); //以该节点为自变量求导是不允许的
+    else return WatchNode->GetGrad(AtVName);
+    //如果不以该节点为自变量求导，则会自动转接到该节点实际返回值对应的节点继续求导，但并不会进行输出
+}
 
 #endif //COMPUTATIONAL_GRAPH_PRINODE_H

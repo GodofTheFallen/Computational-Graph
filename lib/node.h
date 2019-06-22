@@ -10,9 +10,8 @@ class Node
 protected:
     _T *Result;
     const std::string NodeName;
-    std::set<std::string, _T> GradAt;
 public:
-    explicit Node(std::string NodeName = "") : NodeName(NodeName), Result(nullptr) { GradAt.clear(); };
+    explicit Node(std::string NodeName = "") : NodeName(NodeName), Result(nullptr) {};
 
     virtual _T GetVal() = 0; //获取节点的计算结果
     virtual _T GetGrad(std::string); //获取节点的导数
@@ -34,7 +33,6 @@ void Node<_T>::Clear()
 {
     if (Result) delete Result;
     Result = nullptr;
-    GradAt.clear();
 }
 
 template<typename _T>

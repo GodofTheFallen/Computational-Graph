@@ -10,13 +10,14 @@ private:
     Node<_T> *PosAssertion;
     const std::string ErrMsg = "ERROR: Assertion failed"; //Assert不满足时抛出异常
 public:
+    using Node<_T>::GetNodeName;
     using Node<_T>::Result;
 
     AssertNode(std::string NodeName, Node<_T> *_Ass)
             : Node<_T>(NodeName), PosAssertion(_Ass) {}
 
     _T GetVal(); //在计算时检查是否满足要求，并返回0
-
+    //对Assert节点求导是未定义的
     bool Check(); //检查是否满足要求
 
     void Clear();

@@ -14,11 +14,14 @@ protected:
     std::string MainName() const { return MainNode->GetNodeName(); }; //需要被输出的节点名称
     std::string ExtraName() const { return ExtraNode->GetNodeName(); }; //需要被计算的节点名称
 public:
+    using Node<_T>::GetNodeName;
     using Node<_T>::Result;
 
     BindNode(std::string NodeName, Node<_T> *_MN, Node<_T> *_EN) : Node<_T>(NodeName), MainNode(_MN), ExtraNode(_EN) {};
 
     _T GetVal();
+
+    _T GetGrad(std::string);
 
     void Clear();
 };
@@ -38,6 +41,14 @@ void BindNode<_T>::Clear()
     MainNode->Clear();
     ExtraNode->Clear();
     Node<_T>::Clear();
+}
+
+template<typename _T>
+_T BindNode<_T>::GetGrad(std::string AtVName)
+{
+    if (AtVName == GetNodeName()) Node<_T>::GetGrad(AtVName); //以该节点为自变量求导是不允许的
+    return MainNode->GetGrad(AtVName);
+    //如果不以该节点为自变量求导，则会自动转接到该节点实际返回值对应的节点继续求导，但并不会进行Bind计算
 }
 
 #endif //COMPUTATIONAL_GRAPH_BINNODE_H
