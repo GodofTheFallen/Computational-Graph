@@ -8,9 +8,9 @@ template<typename _T>
 class BinNode : public Node<_T>
 {
 protected:
-	std::string WatchName; //ĞèÒª±»Êä³öµÄ½ÚµãÃû³Æ
+	std::string WatchName; //éœ€è¦è¢«è¾“å‡ºçš„èŠ‚ç‚¹åç§°
 	Node<_T>* WatchNode;
-	std::string CalName; //ĞèÒª±»¼ÆËãµÄ½ÚµãÃû³Æ
+	std::string CalName; //éœ€è¦è¢«è®¡ç®—çš„èŠ‚ç‚¹åç§°
 	Node<_T>* CalNode;
 
 public:
