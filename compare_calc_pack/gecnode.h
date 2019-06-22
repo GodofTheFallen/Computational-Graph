@@ -13,6 +13,7 @@ public:
     using CalcNode<_T>::OperandNum;
     using CalcNode<_T>::Operands;           //Using 基类的操作元
     using CalcNode<_T>::CalcNode;
+    using Node<_T>::GetGrad; //不允许求导
 };
 
 template<>

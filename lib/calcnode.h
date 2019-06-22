@@ -14,10 +14,8 @@ protected:
     Node<_T> **Operands; //操作数，指针的指针，第一层指针作为数组，第二层指针作为内容
     std::set<std::string, _T> GradAt;
 
-    virtual _T Calc() = 0;
-
-    virtual _T CalcGrad(std::string) = 0;
-    //Calc函数用于计算该节点的答案，不允许从外部调用，只可以从GetVal()调用（因为所有的节点都有GetVal()，而Calc()不是）
+    virtual _T Calc() = 0;    //Calc函数用于计算该节点的答案，不允许从外部调用，只可以从GetVal()调用（因为所有的节点都有GetVal()，而Calc()不是）
+    virtual _T CalcGrad(std::string);
 
 public:
     using Node<_T>::GetNodeName;
@@ -74,10 +72,17 @@ void CalcNode<_T>::Clear()
 template<typename _T>
 _T CalcNode<_T>::GetGrad(std::string AtVName)
 {
-    if (AtVName == GetNodeName()) return 1;
+    if (AtVName ==
+    GetNodeName()) return 1;
     if (GradAt.count(AtVName)) return GradAt[AtVName];
     GradAt[AtVName] = CalcGrad();
     return GradAt[AtVName];
+}
+
+template<typename _T>
+_T CalcNode<_T>::CalcGrad(std::string AtVName)
+{
+    Node<_T>::GetGrad(AtVName); //未定义的求导
 }
 
 #endif //COMPUTATIONAL_GRAPH_CALCNODE_H
