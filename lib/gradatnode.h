@@ -17,6 +17,8 @@ public:
 
     _T GetVal();
 
+    void Clear();
+
     using Node<_T>::Clear;
 };
 
@@ -26,6 +28,13 @@ _T GradAtNode<_T>::GetVal()
     if (Result) return *Result;
     Result = new _T(GradTarget->GetGrad(AtName));
     return *Result;
+}
+
+template<typename _T>
+void GradAtNode<_T>::Clear()
+{
+    GradTarget->Clear();
+    Node<_T>::Clear();
 }
 
 

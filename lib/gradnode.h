@@ -15,6 +15,8 @@ public:
 
     _T GetGrad(std::string);
 
+    void Clear();
+
     using Node<_T>::Clear;
 };
 
@@ -29,6 +31,13 @@ _T GradNode<_T>::GetGrad(std::string AtVName)
 {
     if (AtVName == Node<_T>::GetNodeName()) Node<_T>::GetGrad(AtVName);
     return GradTarget->GetGrad(AtVName);
+}
+
+template<typename _T>
+void GradNode<_T>::Clear()
+{
+    GradTarget->Clear();
+    Node<_T>::Clear();
 }
 
 
