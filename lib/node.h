@@ -9,7 +9,7 @@ class Node
 {
 protected:
     _T *Result;
-    const std::string NodeName;
+    std::string NodeName;
 public:
     explicit Node(std::string NodeName = "") : NodeName(NodeName), Result(nullptr) {};
 

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cmath>
+#include <map>
 #include "node.h"
 
 template<typename _T>
@@ -12,7 +13,7 @@ protected:
     //protected允许子类访问
     const int OperandNum; //操作数个数
     Node<_T> **Operands; //操作数，指针的指针，第一层指针作为数组，第二层指针作为内容
-    std::set<std::string, _T> GradAt;
+    std::map<std::string, _T> GradAt;
 
     virtual _T Calc() = 0;    //Calc函数用于计算该节点的答案，不允许从外部调用，只可以从GetVal()调用（因为所有的节点都有GetVal()，而Calc()不是）
     virtual _T CalcGrad(std::string);
@@ -72,10 +73,9 @@ void CalcNode<_T>::Clear()
 template<typename _T>
 _T CalcNode<_T>::GetGrad(std::string AtVName)
 {
-    if (AtVName ==
-    GetNodeName()) return 1;
+    if (AtVName == GetNodeName()) return 1;
     if (GradAt.count(AtVName)) return GradAt[AtVName];
-    GradAt[AtVName] = CalcGrad();
+    GradAt[AtVName] = CalcGrad(AtVName);
     return GradAt[AtVName];
 }
 
