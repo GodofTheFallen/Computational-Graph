@@ -3,10 +3,10 @@
 #include "./lib/comgraph.h"
 #include "./basic_calc_pack/basic_calc_pack.h"
 
-const double eps = 1e-5; //当两次迭代区别较小时停止迭代
-const double InitDelta = 0.1, FinalDelta = 0.001, DeltaDec = 0.96; //模拟退火，设定初始步长和每一次迭代步长衰减
-const int MaxM = 1050, MaxN = 105;
-const int RandTimes = 20, MaxIter = 10000000; //初始解随机次数（防止落入极小值），最大迭代次数（防止死循环）
+const double eps = 1e-4; //当两次迭代区别较小时停止迭代
+const double InitDelta = 0.05, FinalDelta = 0.005, DeltaDec = 0.96; //模拟退火，设定初始步长和每一次迭代步长衰减
+const int MaxM = 1005, MaxN = 15;
+const int RandTimes = 50, MaxIter = 50000; //初始解随机次数（防止落入极小值），最大迭代次数（防止死循环）
 
 inline void QBuild(ComGraph<double> &_CG, string TypeName, string NodeName, string OP1, string OP2);
 
@@ -15,9 +15,9 @@ int main()
     int N, M;
     srand(time(NULL)); //随机种子
     double Ans = -1, AnsK[MaxN], MaxValue = -1e9, MinValue = 1e9; //记录答案，Ans为负数表示尚未计算出答案
-    cout << "Number of variables(<=100): " << endl;
+    cout << "Number of variables(<=" << MaxN - 5 << "): " << endl;
     cin >> N; //自变量的个数（空间维度N+1）
-    cout << "Number of points(<=1000): " << endl;
+    cout << "Number of points(<=" << MaxM - 5 << "): " << endl;
     cin >> M; //待拟合的点数
     if (M <= 1) {
         cout << "No Accurate Solution." << endl;
@@ -56,6 +56,7 @@ int main()
     for (int RandCount = 0; RandCount < RandTimes; ++RandCount) {
         double K[MaxN], DK[MaxN], res = -1, delta =
                 InitDelta * exp(log(FinalDelta / InitDelta) * RandCount / (RandTimes - 1));
+        //初始学习率随随机次数逐次变化
         static vector<pair<string, double>> PHList;
         PHList.clear();
         for (int i = 0; i <= N; ++i) {
@@ -76,7 +77,7 @@ int main()
                 res = L;
                 //临时答案更新
             }
-        } while (++IterCount < MaxIter);
+        } while (++IterCount < MaxIter); //最大迭代次数
         if (Ans < 0 || res < Ans) {
             Ans = res;
             for (int j = 0; j <= N; ++j) AnsK[j] = K[j];
